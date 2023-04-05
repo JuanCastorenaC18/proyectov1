@@ -20,7 +20,7 @@ class CodeController extends Controller
     {
         $codigoweb = random_int(100000, 999999);
         $codigomobile = random_int(100000, 999999);
-        $verificadcode = Codes::where('user_id', Auth::user()->id)->where('stages',true)->get();
+        $verificadcode = Codes::where('user_id', Auth::user()->id)->where('status',true)->get();
         if(count ($verificadcode) == 0){
             $in_data = new Codes();
             $in_data->user_id = Auth::user()->id;
@@ -37,7 +37,7 @@ class CodeController extends Controller
     public function seecodemobile(Request $request)
     {
         try {
-            $code = Codes::where('user_id', Auth::user()->id)->where('stages',true)->first();
+            $code = Codes::where('user_id', Auth::user()->id)->where('status',true)->first();
             return view('see-code',['code'=>Crypt::decryptString($code->code_two_comparison)]);
         } catch (Throwable $th) {return response()->json(['message'=> "Bad Request"], 400); }
     }
@@ -45,11 +45,11 @@ class CodeController extends Controller
     public function codeifweb(Request $request)
     {
         $code_one = $request->input('code_one');
-        $code_extraid = Codes::where('user_id', Auth::user()->id)->where('stages',true)->get();
+        $code_extraid = Codes::where('user_id', Auth::user()->id)->where('status',true)->get();
         foreach ($code_extraid as $runner) {
             if(Hash::check($code_one, $runner->code_one)){
                 $code_affirming = Codes::find($runner->id);
-                $code_affirming->stages = false;
+                $code_affirming->status = false;
                 $code_affirming->save();
                 Session::put('code', $runner->code_one);
                 return redirect('dashboard');
@@ -60,7 +60,7 @@ class CodeController extends Controller
     public function codeifmobile(Request $request)
     {
         $code_mobile = $request->input('code_mobile');
-        $code_extraid = Codes::where('stages', true)->get();
+        $code_extraid = Codes::where('status', true)->get();
         foreach ($code_extraid as $runner) {
             if(Hash::check($code_mobile, $runner->code_two)){return response()->json(['code_one'=> Crypt::decryptString($runner->code_one_comparison)],200);}
         } return response()->json(['message'=> "Codigo Expiarado"], 400);

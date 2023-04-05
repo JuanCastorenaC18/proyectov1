@@ -1,7 +1,9 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CodeController;
+use App\Http\Controllers\ProductController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -36,5 +38,28 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
+/*-------------------------------------------------------------------------*/
+Route::resource('products', ProductController::class);
+
+Route::get('/productsview', function () {
+    return view('products.layout');
+})->middleware(['auth', 'verified','codes'])->name('productsview');
+
+Route::get('/productsview2', function () {
+    return redirect()->route('productsview');
+})->middleware(['auth', 'verified','codes'])->name('productsview2');
+/*-------------------------------------------------------------------------*/
+
+/*-------------------------------------------------------------------------*/
+Route::resource('categories', CategoryController::class);
+
+Route::get('/categoriesview', function () {
+    return view('categories.layout');
+})->middleware(['auth', 'verified','codes'])->name('categoriesview');
+
+Route::get('/categoriesview2', function () {
+    return redirect()->route('categoriesview');
+})->middleware(['auth', 'verified','codes'])->name('categoriesview2');
+/*-------------------------------------------------------------------------*/
 
 require __DIR__.'/auth.php';

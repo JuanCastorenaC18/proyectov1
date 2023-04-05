@@ -11,13 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('codes', function (Blueprint $table) {
+        Schema::create('products', function (Blueprint $table) {
             $table->id();
-            $table->integer('user_id')->reference('id')->on('users');
-            $table->string('code_one');
-            $table->string('code_two');
-            $table->string('code_one_comparison');
-            $table->string('code_two_comparison');
+            $table->string('nombre');
+            $table->double('precio', 8, 2);
+            $table->integer('stock');
+            $table->text('descripcion');
+            $table->integer('categoria')->reference('id')->on('categories');
             $table->boolean('status')->default(true);
             $table->timestamps();
         });
@@ -26,8 +26,8 @@ return new class extends Migration
     /**
      * Reverse the migrations.
      */
-    public function down()
+    public function down(): void
     {
-        Schema::dropIfExists('codes');
+        Schema::dropIfExists('products');
     }
 };
