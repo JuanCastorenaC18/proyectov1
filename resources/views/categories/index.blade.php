@@ -7,9 +7,11 @@
                 <h2 class="text-dark">DLCC production</h2>
             </div>
             <br>
-            <div class="pull-right">
-                <a class="btn btn-success" href="{{ route('categories.create') }}"> Crear nuevo categoria</a>
-            </div>
+            @can('categories.create')
+                <div class="pull-right">
+                    <a class="btn btn-success" href="{{ route('categories.create') }}"> Crear nuevo categoria</a>
+                </div>
+            @endcan
             <br>
         </div>
     </div>
@@ -36,15 +38,24 @@
             <td>{{ $category->status }}</td>
             <td>
                 <form action="{{ route('categories.destroy',$category->id) }}" method="POST">
-   
-                    <a class="btn btn-outline-primary" href="{{ route('categories.show',$category->id) }}">Ver</a>
-    
-                    <a class="btn btn-outline-warning" href="{{ route('categories.edit',$category->id) }}">Editar</a>
-   
-                    @csrf
-                    @method('DELETE')
-      
-                    <button type="submit" class="btn btn-outline-danger">Eliminar</button>
+
+                    @can('categories.show')
+                        <a class="btn btn-outline-primary" href="{{ route('categories.show',$category->id) }}">Ver</a>
+                    @endcan
+                    
+                    @can('categories.edit')
+                        <a class="btn btn-outline-warning" href="{{ route('categories.edit',$category->id) }}">Editar</a>
+                    @endcan
+                    
+                    @can('categories.destroy')
+                        @csrf
+                        @method('DELETE')
+                        @if ($category->status == true)
+                            <button type="submit" class="btn btn-outline-danger">Desactivar</button>
+                        @else
+                            <button type="submit" class="btn btn-outline-info">Activar</button>
+                        @endif
+                    @endcan
                 </form>
             </td>
         </tr>

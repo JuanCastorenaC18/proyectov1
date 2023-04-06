@@ -16,12 +16,15 @@
                         {{ __('Dashboard') }}
                     </x-nav-link>
                 </div>
-                <!-- Navigation Links -->
-                <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                    <x-nav-link :href="route('prueba')" :active="request()->routeIs('prueba')">
-                        {{ __('Prueba') }}
-                    </x-nav-link>
-                </div>
+                @can('prueba')
+                    <!-- Navigation Links -->
+                    <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                        <x-nav-link :href="route('prueba')" :active="request()->routeIs('prueba')">
+                            {{ __('Prueba') }}
+                        </x-nav-link>
+                    </div>
+                @endcan
+                
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
                     <x-nav-link :href="route('products.index')" :active="request()->routeIs('productsview2')">
                         {{ __('Productos') }}
@@ -53,6 +56,12 @@
                         <x-dropdown-link :href="route('profile.edit')">
                             {{ __('Profile') }}
                         </x-dropdown-link>
+                        @can('users.index')
+                            <x-dropdown-link :href="route('users.index')">
+                                {{ __('Supervisor') }}
+                            </x-dropdown-link>
+                        @endcan
+                        
 
                         <!-- Authentication -->
                         <form method="POST" action="{{ route('logout') }}">

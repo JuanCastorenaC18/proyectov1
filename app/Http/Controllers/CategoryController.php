@@ -82,10 +82,23 @@ class CategoryController extends Controller
      */
     public function destroy(Category $category): RedirectResponse
     {
-        $category->delete();
+        /*$category->delete();
          
         return redirect()->route('categories.index')
-                        ->with('Exito','Categoria eliminada con exito.');
+                        ->with('Exito','Categoria eliminada con exito.');*/
+
+        if ($category->status == false) {
+            $category->status = true;
+            $category->save();
+            return redirect()->route('categories.index')
+                            ->with('Exito','Categoria activado con exito.');
+        }
+        else {
+            $category->status = false;
+            $category->save();
+            return redirect()->route('categories.index')
+                        ->with('Exito','Categoria desactivada con exito.');
+        }
     }
     
 }

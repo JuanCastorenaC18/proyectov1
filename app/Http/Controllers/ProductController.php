@@ -8,6 +8,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\View\View;
+use App\Http\Controllers\console;
   
 class ProductController extends Controller
 {
@@ -89,9 +90,30 @@ class ProductController extends Controller
      */
     public function destroy(Product $product): RedirectResponse
     {
-        $product->delete();
+        /*$product->delete();
          
         return redirect()->route('products.index')
-                        ->with('Exito','Producto eliminado con exito.');
+                        ->with('Exito','Producto eliminado con exito.');*/
+        /*$product->status = false;
+        $product->save();
+        return redirect()->route('products.index')
+                        ->with('Exito','Producto desactivado con exito.');*/
+    
+        if ($product->status == false) {
+            $product->status = true;
+            $product->save();
+            return redirect()->route('products.index')
+                            ->with('Exito','Producto activo con exito.');
+        }
+        else {
+            $product->status = false;
+            $product->save();
+            return redirect()->route('products.index')
+                        ->with('Exito','Producto desactivado con exito.');
+        }
+    }
+    public function active(Product $product): RedirectResponse
+    {
+        
     }
 }

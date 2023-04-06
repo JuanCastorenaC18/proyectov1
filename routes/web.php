@@ -4,6 +4,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CodeController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -39,8 +40,8 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 /*-------------------------------------------------------------------------*/
-Route::resource('products', ProductController::class);
-
+Route::resource('products', ProductController::class)->names(['products']);
+Route::get('/products/active', [CodeController::class, 'products.active'])->name('products.active');
 Route::get('/productsview', function () {
     return view('products.layout');
 })->middleware(['auth', 'verified','codes'])->name('productsview');
@@ -51,7 +52,7 @@ Route::get('/productsview2', function () {
 /*-------------------------------------------------------------------------*/
 
 /*-------------------------------------------------------------------------*/
-Route::resource('categories', CategoryController::class);
+Route::resource('categories', CategoryController::class)->names(['categories']);
 
 Route::get('/categoriesview', function () {
     return view('categories.layout');
@@ -61,5 +62,20 @@ Route::get('/categoriesview2', function () {
     return redirect()->route('categoriesview');
 })->middleware(['auth', 'verified','codes'])->name('categoriesview2');
 /*-------------------------------------------------------------------------*/
+
+Route::get('/test-session', function () {
+    session(['test_key' => 'test_value']);
+    return 'Session value set';
+});
+
+Route::get('/get-session', function () {
+    return session('test_key');
+});
+
+/*-------------------------------------------------------------------------*/
+Route::resource('users', UserController::class)->names(['users']);
+
+/*-------------------------------------------------------------------------*/
+
 
 require __DIR__.'/auth.php';

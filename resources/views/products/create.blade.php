@@ -7,9 +7,11 @@
             <h1 class="text-dark">Añadir nuevo producto</h1>
         </div>
         <br>
-        <div class="pull-right">
-            <a class="btn btn-primary" href="{{ route('products.index') }}"> Atras</a>
-        </div>
+        @can('products.index')
+            <div class="pull-right">
+                <a class="btn btn-primary" href="{{ route('products.index') }}"> Atras</a>
+            </div>
+        @endcan
         <br>
     </div>
 </div>
