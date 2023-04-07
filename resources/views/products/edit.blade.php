@@ -23,7 +23,7 @@
         </div>
     @endif
   
-    <form action="{{ route('products.update',$product->id) }}" method="POST">
+    <form action="{{ route('products.update',$product->id) }}" method="POST" enctype="multipart/form-data">
         @csrf
         @method('PUT')
    
@@ -55,6 +55,17 @@
             </div>
             <div class="col-xs-12 col-sm-12 col-md-12">
                 <div class="form-group text-dark">
+                    <img id="imagenSelecionada" src="/imagen/{{ $product->imagen }}" height="4%" width="4%">
+                </div>
+            </div>
+            <div class="col-xs-12 col-sm-12 col-md-12">
+                <div class="form-group text-dark">
+                    <strong class="text-dark">Imagen:</strong>
+                    <input type="file" id="imagen" value="{{ $product->imagen }}" name="imagen" class="form-control" placeholder="Imagen">
+                </div>
+            </div>
+            <div class="col-xs-12 col-sm-12 col-md-12">
+                <div class="form-group text-dark">
                     <strong class="text-dark">Categoria:</strong>
                     <input type="text" name="categoria" value="{{ $product->categoria }}" class="form-control" placeholder="Categoria">
                 </div>
@@ -67,4 +78,17 @@
         </div>
    
     </form>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script>
+        $(document).ready(function(e){
+            $('#imagen').change(function(){
+                let reader = new FileReader();
+                reader.onload = function (e) {
+                    $('#imagenSelecionada').attr('src', e.target.result);
+                    $('#imagenSelecionada').show();
+                }
+                reader.readAsDataURL(this.files[0]);
+            })
+        })
+    </script>
 @endsection

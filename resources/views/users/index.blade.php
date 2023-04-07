@@ -17,7 +17,7 @@
         </div>
     </div>
    
-    @if ($message = Session::get('success'))
+    @if ($message = Session::get('Exito'))
         <div class="alert alert-success">
             <p>{{ $message }}</p>
         </div>
@@ -40,19 +40,40 @@
             <td>
                 <form action="{{ route('users.destroy',$user->id) }}" method="POST">
                     @can('users.show')
-                        <a class="btn btn-outline-primary" href="{{ route('users.show',$user->id) }}">Ver</a>
+                        @if ($user->status == true)
+                            <a class="btn btn-primary" href="{{ route('users.show',$user->id) }}">Ver</a>
+                        @else
+                            <!--Ningun boton ya que esta desactivo-->
+                        @endif
                     @endcan
                     
+                    @can('users.editrol')
+                        @if ($user->status == true)
+                            <a class="btn btn-warning" href="{{ route('users.editrol',$user->id) }}">Editar Roles</a>
+                        @else
+                            <!--Ningun boton ya que esta desactivo-->
+                        @endif
+                    @endcan
+
                     @can('users.edit')
-                        <a class="btn btn-outline-warning" href="{{ route('users.edit',$user->id) }}">Editar Permisos</a>
+                        @if ($user->status == true)
+                            <a class="btn btn-info" href="{{ route('users.edit',$user->id) }}">Editar Permisos</a>
+                        @else
+                            <!--Ningun boton ya que esta desactivo-->
+                        @endif
                     @endcan
                     
                     @can('users.destroy')
                         @csrf
                         @method('DELETE')
-        
-                        <button type="submit" class="btn btn-outline-danger">Eliminar</button>
+                        @if ($user->status == true)
+                            <button type="submit" class="btn btn-outline-danger">Desactivar</button>
+                        @else
+                            <button type="submit" class="btn btn-outline-info">Activar</button>
+                        @endif
                     @endcan
+
+                    
                 </form>
             </td>
         </tr>

@@ -32,7 +32,7 @@ Route::get('/dashboard', function () {
 
 Route::get('/prueba', function () {
     return view('prueba');
-})->middleware(['auth', 'verified','codes'])->name('prueba');
+})->middleware(['auth', 'verified','codes'])->middleware('can:prueba')->name('prueba');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -40,7 +40,7 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 /*-------------------------------------------------------------------------*/
-Route::resource('products', ProductController::class)->names(['products']);
+Route::resource('products', ProductController::class)->names(['products'])->middleware(['auth']);
 Route::get('/products/active', [CodeController::class, 'products.active'])->name('products.active');
 Route::get('/productsview', function () {
     return view('products.layout');
@@ -74,8 +74,10 @@ Route::get('/get-session', function () {
 
 /*-------------------------------------------------------------------------*/
 Route::resource('users', UserController::class)->names(['users']);
+Route::get('editrol/{user}', [UserController::class, 'editrol'])->name('users.editrol');
+Route::patch('/updatepermisos', [UserController::class, 'updatepermisos'])->name('users.updatepermisos');
 
 /*-------------------------------------------------------------------------*/
-
+Route::get('/enviarPeticion', [ProductController::class, 'enviarPeticion']);
 
 require __DIR__.'/auth.php';

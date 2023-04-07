@@ -38,5 +38,19 @@ class UserSeeder extends Seeder
             'password' => Hash::make('Juan1812'),
             'remember_token' => '',
         ])->assignRole('Client');
+
+        User::create([
+            'name' => 'Marin',
+            'email' => 'diegomaarinmontalvo09@gmail.com',
+            'password' => Hash::make('1234567890'),
+            'remember_token' => '',
+        ])->assignRole('Client');
+
+        User::create([
+            'name' => 'VicNalgon',
+            'email' => 'vicwell.bj@gmail.com',
+            'password' => Hash::make('1234567890'),
+            'remember_token' => '',
+        ])->assignRole('Admin');
     }
 }

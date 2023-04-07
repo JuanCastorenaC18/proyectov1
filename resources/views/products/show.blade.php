@@ -41,6 +41,12 @@
         </div>
         <div class="col-xs-12 col-sm-12 col-md-12">
             <div class="form-group text-dark">
+                <strong class="text-dark">Imagen:</strong>
+                <img src="/imagen/{{ $product->imagen }}" height="4%" width="4%">
+            </div>
+        </div>
+        <div class="col-xs-12 col-sm-12 col-md-12">
+            <div class="form-group text-dark">
                 <strong class="text-dark">Categoria:</strong>
                 {{ $product->categoria }}
             </div>

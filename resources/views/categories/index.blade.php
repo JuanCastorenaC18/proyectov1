@@ -16,7 +16,7 @@
         </div>
     </div>
    
-    @if ($message = Session::get('success'))
+    @if ($message = Session::get('Exito '))
         <div class="alert alert-success">
             <p>{{ $message }}</p>
         </div>
@@ -40,11 +40,19 @@
                 <form action="{{ route('categories.destroy',$category->id) }}" method="POST">
 
                     @can('categories.show')
-                        <a class="btn btn-outline-primary" href="{{ route('categories.show',$category->id) }}">Ver</a>
+                        @if ($category->status == true)
+                            <a class="btn btn-outline-primary" href="{{ route('categories.show',$category->id) }}">Ver</a>
+                        @else
+                            <!--Ningun boton ya que esta desactivo-->
+                        @endif
                     @endcan
                     
                     @can('categories.edit')
-                        <a class="btn btn-outline-warning" href="{{ route('categories.edit',$category->id) }}">Editar</a>
+                        @if ($category->status == true)
+                            <a class="btn btn-outline-warning" href="{{ route('categories.edit',$category->id) }}">Editar</a>
+                        @else
+                            <!--Ningun boton ya que esta desactivo-->
+                        @endif
                     @endcan
                     
                     @can('categories.destroy')
@@ -61,6 +69,7 @@
         </tr>
         @endforeach
     </table>
+    
   
     {!! $categories->links() !!}
       

@@ -17,7 +17,7 @@
         </div>
     </div>
    
-    @if ($message = Session::get('success'))
+    @if ($message = Session::get('Exito'))
         <div class="alert alert-success">
             <p>{{ $message }}</p>
         </div>
@@ -30,8 +30,10 @@
             <th>Precio</th>
             <th>Stock</th>
             <th>Descripcion</th>
+            <th width="10%">Imagen</th>
             <th>Categoria</th>
             <th>Estatus</th>
+
             <th width="280px">Accion</th>
         </tr>
         @foreach ($products as $product)
@@ -41,16 +43,25 @@
             <td>{{ $product->precio }}</td>
             <td>{{ $product->stock }}</td>
             <td>{{ $product->descripcion }}</td>
+            <td><img src="/imagen/{{ $product->imagen }}" height="30%" width="30%"></td>
             <td>{{ $product->categoria }}</td>
             <td>{{ $product->status }}</td>
             <td>
                 <form action="{{ route('products.destroy',$product->id) }}" method="POST">
                     @can('products.show')
-                        <a class="btn btn-outline-primary" href="{{ route('products.show',$product->id) }}">Ver</a>
+                        @if ($product->status == true)
+                            <a class="btn btn-outline-primary" href="{{ route('products.show',$product->id) }}">Ver</a>
+                        @else
+                            <!--Ningun boton ya que esta desactivo-->
+                        @endif
                     @endcan
                     
                     @can('products.edit')
-                        <a class="btn btn-outline-warning" href="{{ route('products.edit',$product->id) }}">Editar</a>
+                        @if ($product->status == true)
+                            <a class="btn btn-outline-warning" href="{{ route('products.edit',$product->id) }}">Editar</a>
+                        @else
+                            <!--Ningun boton ya que esta desactivo-->
+                        @endif
                     @endcan
                     
                     @can('products.destroy')
@@ -67,6 +78,15 @@
         </tr>
         @endforeach
     </table>
+    <hr style="border-color: #000000; border-width: 2px;">
+    <br>
+    @can('enviarPeticion')
+        <form class="form-group text-center border p-4" action="/enviarPeticion" method="GET">
+            <h1 class="text-dark">Solicite permisos para poder modificar</h1>
+            <br>
+            <button type="submit" class="btn btn-outline-success">Enviar Correo</button>
+        </form>
+    @endcan
   
     {!! $products->links() !!}
       

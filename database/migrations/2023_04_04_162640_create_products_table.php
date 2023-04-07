@@ -17,6 +17,7 @@ return new class extends Migration
             $table->double('precio', 8, 2);
             $table->integer('stock');
             $table->text('descripcion');
+            $table->string('imagen');
             $table->integer('categoria')->reference('id')->on('categories');
             $table->boolean('status')->default(true);
             $table->timestamps();

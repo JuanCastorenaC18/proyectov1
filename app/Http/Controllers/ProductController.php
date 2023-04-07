@@ -2,8 +2,12 @@
   
 namespace App\Http\Controllers;
 
+use App\Mail\MailAlSuper;
+use Illuminate\Support\Facades\Mail;
 use App\Models\Category;
 use App\Models\Product;
+use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -12,6 +16,17 @@ use App\Http\Controllers\console;
   
 class ProductController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('can:products.index')->only('index');
+        $this->middleware('can:products.create')->only('create');
+        $this->middleware('can:products.store')->only('store');
+        $this->middleware('can:products.show')->only('show');
+        $this->middleware('can:products.edit')->only('edit');
+        $this->middleware('can:products.update')->only('update');
+        $this->middleware('can:products.destroy')->only('destroy');
+        $this->middleware('can:enviarPeticion')->only('enviarPeticion');
+    }
     /**
      * Display a listing of the resource.
      */
@@ -41,13 +56,24 @@ class ProductController extends Controller
             'precio' => 'required',
             'stock' => 'required',
             'descripcion' => 'required',
+            'imagen' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'categoria' => 'required',
         ]);
-        
-        Product::create($request->all());
+        $product = $request->all();
+
+        if ($imagen = $request->file('imagen')) {
+            $rutaGuardarImg = 'imagen/';
+            $imagenProducto = date('YmdHis')."." .$imagen->getClientOriginalExtension();
+            $imagen->move($rutaGuardarImg, $imagenProducto);
+            $product['imagen'] = "$imagenProducto";
+        }
+        Product::create($product);
+        return redirect()->route('products.index')->with('Exito', 'Producto creado correctamente.');
+
+        /*Product::create($request->all());
         
         return redirect()->route('products.index')
-                        ->with('Exito','Producto creado con exito.');
+                        ->with('Exito','Producto creado con exito.');*/
     }
   
     /**
@@ -78,11 +104,20 @@ class ProductController extends Controller
             'descripcion' => 'required',
             'categoria' => 'required',
         ]);
-        
-        $product->update($request->all());
+        $prod->$request->all();
+
+        if ($imagen = $request->file('imagen')) {
+            $rutaGuardarImg = 'imagen/';
+            $imagenProducto = date('YmdHis')."." .$imagen->getClientOriginalExtension();
+            $imagen->move($rutaGuardarImg, $imagenProducto);
+            $prod['imagen'] = "$imagenProducto";
+        } else {
+            unset($prod['imagen']);
+        }
+        Product::update($prod);
         
         return redirect()->route('products.index')
-                        ->with('Exito','Producto actualizado con exito.');
+                        ->with('Exito','Producto creado correctamente.');
     }
   
     /**
@@ -112,8 +147,15 @@ class ProductController extends Controller
                         ->with('Exito','Producto desactivado con exito.');
         }
     }
-    public function active(Product $product): RedirectResponse
+
+    public function enviarPeticion(MailAlSuper $mail): RedirectResponse
     {
-        
+        //$mail= new MailAlSuper($signed_Route);
+        Mail::to(Auth::user()->email)->send(new MailAlSuper($mail));
+        /*$usuario = User::find($id);
+        Mail::to(Auth::user()->email, $usuario->email)->send(new MailAlSuper($mail));*/
+
+        return redirect()->route('products.index')
+                        ->with('Exito','Peticion enviada con exito, espere un momento para autorizarlo, Revise su Correo.');
     }
 }

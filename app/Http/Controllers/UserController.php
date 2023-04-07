@@ -3,13 +3,26 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\View\View;
+use Spatie\Permission\Models\Role;
 
 class UserController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('can:users.index')->only('index');
+        $this->middleware('can:users.create')->only('create');
+        $this->middleware('can:users.store')->only('store');
+        $this->middleware('can:users.show')->only('show');
+        $this->middleware('can:users.edit')->only('edit');
+        $this->middleware('can:users.update')->only('update');
+        $this->middleware('can:users.destroy')->only('destroy');
+        $this->middleware('can:users.destroy')->only('editrol');
+    }
     /**
      * Display a listing of the resource.
      */
@@ -43,6 +56,7 @@ class UserController extends Controller
         $user->name = $validatedData['name'];
         $user->email = $validatedData['email'];
         $user->password = Hash::make($validatedData['password']);
+        $user->assignRole('Client');
         $user->save();
         //User::create($request->all());
          
@@ -63,7 +77,14 @@ class UserController extends Controller
      */
     public function edit(User $user): View
     {
+        
         return view('users.edit',compact('user'));
+    }
+
+    public function editrol(User $user): View
+    {
+        $roles = Role::all();
+        return view('users.editrol',compact('user', 'roles'));
     }
 
     /**
@@ -87,9 +108,24 @@ class UserController extends Controller
      */
     public function destroy(User $user): RedirectResponse
     {
-        $user->delete();
-         
+        /*$user->delete();
         return redirect()->route('users.index')
-                        ->with('Exito','Usuario eliminada con exito.');
+                        ->with('Exito','Usuario eliminada con exito.');*/
+        if ($user->status == false) {
+            $user->status = true;
+            $user->save();
+            return redirect()->route('users.index')
+                            ->with('Exito','Usuario activo con exito.');
+        }
+        else {
+            $user->status = false;
+            $user->save();
+            return redirect()->route('users.index')
+                        ->with('Exito','Usuario desactivado con exito.');
+        }
+    }
+    public function updatepermisos(User $user): RedirectResponse
+    {
+        
     }
 }

@@ -12,15 +12,19 @@ use Illuminate\Queue\SerializesModels;
 class MailAlSuper extends Mailable
 {
     use Queueable, SerializesModels;
-
+    public $usuario;
     /**
      * Create a new message instance.
      */
-    public function __construct()
+    public function __construct(/*$usuario*/)
     {
-        //
+        //$this->usuario = $usuario;
     }
 
+    public function build()
+    {
+        return $this->subject('Prueba de correo')->view('emails.testcode')/*->with('usuario', $this->usuario)*/;
+    }
     /**
      * Get the message envelope.
      */
@@ -37,7 +41,7 @@ class MailAlSuper extends Mailable
     public function content(): Content
     {
         return new Content(
-            view: 'view.name',
+            view: 'emails.correoalsuper',
         );
     }
 
