@@ -74,7 +74,7 @@ Route::get('/get-session', function () {
 
 /*-------------------------------------------------------------------------*/
 Route::resource('users', UserController::class)->names(['users']);
-Route::get('editrol/{user}', [UserController::class, 'editrol'])->name('users.editrol');
+Route::get('editpermiso/{user}', [UserController::class, 'editpermiso'])->name('users.editpermiso');
 Route::patch('/updatepermisos', [UserController::class, 'updatepermisos'])->name('users.updatepermisos');
 
 /*-------------------------------------------------------------------------*/

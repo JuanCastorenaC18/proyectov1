@@ -47,21 +47,15 @@
                         @endif
                     @endcan
                     
-                    @can('users.editrol')
+                    @can('users.editpermiso')
                         @if ($user->status == true)
-                            <a class="btn btn-warning" href="{{ route('users.editrol',$user->id) }}">Editar Roles</a>
+                            <a class="btn btn-warning" href="{{ route('users.editpermiso',$user->id) }}">Editar Permisos</a>
                         @else
                             <!--Ningun boton ya que esta desactivo-->
                         @endif
                     @endcan
 
-                    @can('users.edit')
-                        @if ($user->status == true)
-                            <a class="btn btn-info" href="{{ route('users.edit',$user->id) }}">Editar Permisos</a>
-                        @else
-                            <!--Ningun boton ya que esta desactivo-->
-                        @endif
-                    @endcan
+                    
                     
                     @can('users.destroy')
                         @csrf

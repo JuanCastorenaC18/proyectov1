@@ -40,14 +40,22 @@
                     <input disabled type="text" name="email" value="{{ $user->email }}" class="form-control" placeholder="Correo">
                 </div>
             </div>
-            {!! Form::model([$user,['route'=> ['users.update', $user], 'method' => 'put']]) !!}
-                @foreach ($roles as $rol)
+
+            <div class="card">
+                <div class="card-body">
+                    {!! Form::model($user, ['route'=> ['users.update', $user], 'method' => 'put']) !!}
+                    @foreach ($permissions as $permission)
                     <div>
                         <label>
+                            {!! Form::checkbox('permissions[]', $permission->id, null, ['class'=> 'mr-1']) !!}
+                            {{$permission->description}}
                         </label>
                     </div>
                 @endforeach
-            {!! Form::close() !!}
+                    {!! Form::close() !!}
+                </div>
+            </div>
+            
             <div class="col-xs-12 col-sm-12 col-md-12 text-center">
             <br>
               <button type="submit" class="btn btn-outline-success">Enviar</button>

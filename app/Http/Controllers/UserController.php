@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\View\View;
 use Spatie\Permission\Models\Role;
+use Spatie\Permission\Models\Permission;
 
 class UserController extends Controller
 {
@@ -77,14 +78,14 @@ class UserController extends Controller
      */
     public function edit(User $user): View
     {
-        
-        return view('users.edit',compact('user'));
+        $permissions= Permission::all();
+        return view('users.edit',compact('user', 'permissions'));
     }
 
-    public function editrol(User $user): View
+    public function editpermiso(User $user): View
     {
-        $roles = Role::all();
-        return view('users.editrol',compact('user', 'roles'));
+        $permissions= Permission::all();
+        return view('users.editpermiso',compact('user', 'permissions'));
     }
 
     /**
