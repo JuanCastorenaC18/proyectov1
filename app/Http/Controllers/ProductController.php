@@ -148,14 +148,17 @@ class ProductController extends Controller
         }
     }
 
-    public function enviarPeticion(MailAlSuper $mail): RedirectResponse
+    public function enviarPeticion(MailAlSuper $mail): View
     {
         //$mail= new MailAlSuper($signed_Route);
-        Mail::to(Auth::user()->email)->send(new MailAlSuper($mail));
+        $users = User::role('Supervisor')->get();
+        Mail::to($users)->send(new MailAlSuper($mail));
+        //Mail::to(Auth::user()->email)->send(new MailAlSuper($mail));
         /*$usuario = User::find($id);
         Mail::to(Auth::user()->email, $usuario->email)->send(new MailAlSuper($mail));*/
 
-        return redirect()->route('products.index')
+        //return redirect()->route('products.codeper')
+        return view('products.codeper')
                         ->with('Exito','Peticion enviada con exito, espere un momento para autorizarlo, Revise su Correo.');
     }
 }

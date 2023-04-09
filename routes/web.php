@@ -42,6 +42,10 @@ Route::middleware('auth')->group(function () {
 /*-------------------------------------------------------------------------*/
 Route::resource('products', ProductController::class)->names(['products'])->middleware(['auth']);
 Route::get('/products/active', [CodeController::class, 'products.active'])->name('products.active');
+//Route::get('/products/codeper/{user}', [CodeController::class, 'products.active'])->name('products.codeper');
+/*Route::get('/products/codeper', function () {
+    return view('products.codeper');
+})->name('products.codeper');*/
 Route::get('/productsview', function () {
     return view('products.layout');
 })->middleware(['auth', 'verified','codes'])->name('productsview');

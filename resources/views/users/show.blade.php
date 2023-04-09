@@ -32,7 +32,7 @@
                 <strong class="text-dark">Correo:</strong>
                 {{ $user->email }}
             </div>
-        </div>
+        </div> 
         <div class="col-xs-12 col-sm-12 col-md-12">
             <div class="form-group text-dark">
                 <strong class="text-dark">Estatus:</strong>

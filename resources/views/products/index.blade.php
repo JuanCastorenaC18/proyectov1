@@ -50,20 +50,20 @@
                 <form action="{{ route('products.destroy',$product->id) }}" method="POST">
                     @can('products.show')
                         @if ($product->status == true)
-                            <a class="btn btn-outline-primary" href="{{ route('products.show',$product->id) }}">Ver</a>
+                            <a class="btn btn-primary" href="{{ route('products.show',$product->id) }}">Ver</a>
                         @else
-                            <!--Ningun boton ya que esta desactivo-->
+                            <a class="btn btn-outline-primary{{ !$product->is_active ? ' disabled' : '' }}" href="{{ route('products.show',$product->id) }}" @disabled(true)>Ver</a>
                         @endif
                     @endcan
                     
                     @can('products.edit')
                         @if ($product->status == true)
-                            <a class="btn btn-outline-warning" href="{{ route('products.edit',$product->id) }}">Editar</a>
+                            <a class="btn btn-warning" href="{{ route('products.edit',$product->id) }}">Editar</a>
                         @else
-                            <!--Ningun boton ya que esta desactivo-->
+                            <a class="btn btn-outline-warning{{ !$product->is_active ? ' disabled' : '' }}" href="{{ route('products.edit',$product->id) }}">Editar</a>
                         @endif
                     @endcan
-                    
+                
                     @can('products.destroy')
                         @csrf
                         @method('DELETE')
@@ -84,10 +84,23 @@
         <form class="form-group text-center border p-4" action="/enviarPeticion" method="GET">
             <h1 class="text-dark">Solicite permisos para poder modificar</h1>
             <br>
-            <button type="submit" class="btn btn-outline-success">Enviar Correo</button>
+            <button type="submit" id="btnpeticion" class="btn btn-outline-success">Enviar Correo</button>
         </form>
     @endcan
+    
   
     {!! $products->links() !!}
       
 @endsection
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script>
+    window.addEventListener("load", function() {
+        document.getElementById("btnpeticion").disabled = false;
+        document.getElementById("btnpeticion").addEventListener("click", function() {
+            // Deshabilita el botón
+            //document.getElementById("btnpeticion").disabled = true;
+            //document.getElementById("btnpeticion").disabled = false;
+        });
+    });
+    
+</script>
