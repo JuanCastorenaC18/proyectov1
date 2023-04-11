@@ -83,5 +83,7 @@ Route::patch('/updatepermisos', [UserController::class, 'updatepermisos'])->name
 
 /*-------------------------------------------------------------------------*/
 Route::get('/enviarPeticion', [ProductController::class, 'enviarPeticion']);
-
+/*-------------------------------------------------------------------------*/
+Route::get('/qrcode', [QrCodeController::class, 'show'])->name('auth_qrcode');
+/*-------------------------------------------------------------------------*/
 require __DIR__.'/auth.php';
