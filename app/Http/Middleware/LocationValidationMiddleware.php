@@ -18,7 +18,6 @@ class LocationValidationMiddleware
      */
     public function handle(Request $request, Closure $next): Response
     {
-        
         $location = \config('getLocation.location');
 
         $user =$request->user();
@@ -28,6 +27,11 @@ class LocationValidationMiddleware
         if ($role == 'Admin' && $location == 'public') {
             $request->session()->invalidate();
            return redirect('/');
+        }
+
+        if($role == 'Client' && $location == 'vpn'){
+            $request->session()->invalidate();
+            return redirect('/');
         }
 
         return $next($request);
