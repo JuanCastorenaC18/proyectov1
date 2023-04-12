@@ -18,8 +18,8 @@ class CodeController extends Controller
 {
     public function sendsignedroute(Request $request)
     {
-        $codigoweb = random_int(100000, 999999);
-        $codigomobile = random_int(100000, 999999);
+        $codigoweb = random_int(10000, 99999);
+        $codigomobile = random_int(10000, 99999);
         $verificadcode = Codes::where('user_id', Auth::user()->id)->where('status',true)->get();
         if(count ($verificadcode) == 0){
             $in_data = new Codes();

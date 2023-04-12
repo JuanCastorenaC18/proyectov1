@@ -49,7 +49,17 @@
                 <input type="password" name="password" class="form-control" placeholder="Contraseña">
             </div>
         </div>
-        <div class="col-xs-12 col-sm-12 col-md-12 text-center">
+        <div class="col-xs-12 col-sm-12 col-md-12">
+            <div class="form-group text-dark">
+                <strong>Rol:</strong>
+                <select name="rol" id="rol" class="form-select">
+                    <option value="">Seleccionar rol</option>
+                    @foreach($roles as $rol)
+                    <option value="{{ $rol->id }}">{{ $rol->name }}</option>
+                    @endforeach
+                </select>
+            </div>
+        </div>
         <br>
             <button type="submit" class="btn btn-outline-success">Enviar</button>
         </div>

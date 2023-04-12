@@ -23,3 +23,13 @@ Route::get('/auth/codemo', function () {
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+/********************************************************** */
+Route::post('  ', function (Request $request) {
+    $user = Auth::user();
+    if (Google2FA::verifyKey($user->google2fa_secret, $request->input('code'))) {
+        return response()->json(['success' => true]);
+    }
+    return response()->json(['success' => false], 401);
+})->middleware(['auth']);
+/********************************************************** */

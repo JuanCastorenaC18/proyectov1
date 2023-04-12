@@ -80,20 +80,20 @@
     </table>
     <hr style="border-color: #000000; border-width: 2px;">
     <br>
-    @can('enviarPeticion')
-        <form class="form-group text-center border p-4" action="/enviarPeticion" method="GET">
-            <h1 class="text-dark">Solicite permisos para poder modificar</h1>
-            <br>
-            <button type="submit" id="btnpeticion" class="btn btn-outline-success">Enviar Correo</button>
-        </form>
+    @can('products.update')
+        <p>Usted ya tiene permisos.</p>
     @endcan
+    @cannot('products.update')
+        <p>Usted no tiene permisos vaya al menu de cliente para solicitarlo.</p>
+    @endcannot
+    
     
   
     {!! $products->links() !!}
       
 @endsection
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-<script>
+<!--<script>
     window.addEventListener("load", function() {
         document.getElementById("btnpeticion").disabled = false;
         document.getElementById("btnpeticion").addEventListener("click", function() {
@@ -103,4 +103,4 @@
         });
     });
     
-</script>
+</script>-->

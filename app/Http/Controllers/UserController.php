@@ -40,13 +40,14 @@ class UserController extends Controller
      */
     public function create(): View
     {
-        return view('users.create');
+        $roles = Role::all();
+        return view('users.create', ['roles' => $roles]);
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request): RedirectResponse
+    /*public function store(Request $request): RedirectResponse
     {
         $validatedData = $request->validate([
             'name' => 'required',
@@ -61,6 +62,24 @@ class UserController extends Controller
         $user->save();
         //User::create($request->all());
          
+        return redirect()->route('users.index')
+                        ->with('Exito','Usuario creada con exito.');
+    }*/
+    public function store(Request $request)
+    {
+        $this->validate($request, [
+            'name' => 'required',
+            'email' => 'required|email|unique:users,email',
+            'password' => 'required',
+            'status' => 'required'
+        ]);
+    
+        $input = $request->all();
+        $input['password'] = Hash::make($input['password']);
+        
+        $user = User::create($input);
+        $user->assignRole($request->input('rol'));
+    
         return redirect()->route('users.index')
                         ->with('Exito','Usuario creada con exito.');
     }

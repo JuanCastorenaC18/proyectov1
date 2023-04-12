@@ -58,7 +58,22 @@
                         </x-dropdown-link>
                         @can('users.index')
                             <x-dropdown-link :href="route('users.index')">
+                                {{ __('Usuarios') }}
+                            </x-dropdown-link>
+                        @endcan
+                        @can('supervisors.index')
+                            <x-dropdown-link :href="route('supervisors.index')">
                                 {{ __('Supervisor') }}
+                            </x-dropdown-link>
+                        @endcan
+                        @can('supervisors.indexcustom')
+                            <x-dropdown-link :href="route('supervisors.indexcustom')">
+                                {{ __('Clientes') }}
+                            </x-dropdown-link>
+                        @endcan
+                        @can('admins.index')
+                            <x-dropdown-link :href="route('admins.index')">
+                                {{ __('Admin') }}
                             </x-dropdown-link>
                         @endcan
                         

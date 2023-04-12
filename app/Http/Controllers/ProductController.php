@@ -13,6 +13,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\View\View;
 use App\Http\Controllers\console;
+use Spatie\Permission\Models\Permission;
   
 class ProductController extends Controller
 {
@@ -32,9 +33,10 @@ class ProductController extends Controller
      */
     public function index(): View
     {
+        $users = User::all();
         $products = Product::latest()->paginate(5);
         
-        return view('products.index',compact('products'))
+        return view('products.index',compact('products', 'users'))
                     ->with('i', (request()->input('page', 1) - 1) * 5);
     }
   
@@ -43,7 +45,8 @@ class ProductController extends Controller
      */
     public function create(): View
     {
-        return view('products.create');
+        $categorias = Category::all();
+        return view('products.create', ['categorias' => $categorias]);
     }
   
     /**
@@ -148,17 +151,23 @@ class ProductController extends Controller
         }
     }
 
-    public function enviarPeticion(MailAlSuper $mail): View
+    public function enviarPeticion(User $user)
     {
         //$mail= new MailAlSuper($signed_Route);
         $users = User::role('Supervisor')->get();
-        Mail::to($users)->send(new MailAlSuper($mail));
+        $user = auth()->user()->email;
+        Mail::to($users)->send(new MailAlSuper($user));
         //Mail::to(Auth::user()->email)->send(new MailAlSuper($mail));
         /*$usuario = User::find($id);
         Mail::to(Auth::user()->email, $usuario->email)->send(new MailAlSuper($mail));*/
-
+        //$logeado = Auth::user();
+        //$logeado->revokePermissionTo(['products.edit', 'products.update']);
+        //$permission = Permission::findByName();
+        //$logeado->givePermissionTo(['products.edit', 'products.update']);
         //return redirect()->route('products.codeper')
-        return view('products.codeper')
-                        ->with('Exito','Peticion enviada con exito, espere un momento para autorizarlo, Revise su Correo.');
+        return redirect()->back()->with('Exito','Peticion enviada con exito, espere un momento para autorizarlo, Revise su Correo.');
+    }
+    public function darPermiso(Request $request)
+    {
     }
 }

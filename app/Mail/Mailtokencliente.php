@@ -9,7 +9,7 @@ use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
-class TestCodeMail extends Mailable
+class Mailtokencliente extends Mailable
 {
     use Queueable, SerializesModels;
     /**
@@ -21,10 +21,10 @@ class TestCodeMail extends Mailable
      * 
      * @return void
      */
-    public $code;
-    public function __construct(String $code)
+    public $token;
+    public function __construct(String $token)
     {
-        $this->code = $code;
+        $this->token = $token;
     }
 
     /**
@@ -44,12 +44,12 @@ class TestCodeMail extends Mailable
      */
     public function build()
     {
-        return $this->subject('Codigo para logeo')->view('emails.testcode')->with($this->code);
+        return $this->subject('Token para permisos Clientes')->view('emails.testtokencli')->with($this->token);
     }
     public function content()
     {
         return new Content(
-            view: 'emails.testcode',
+            view: 'emails.testtokencli',
         );
     }
 

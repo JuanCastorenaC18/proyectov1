@@ -1,12 +1,19 @@
-@extends('products.layout')
+@extends('customers.layout')
   
-@section('content')
+@section('contentcustom')
+
+    
 <div class="row">
     <div class="col-lg-12 margin-tb">
         <div class="pull-left">
             <h1 class="text-dark">Añadir nuevo producto</h1>
         </div>
         <br>
+        @if ($message = Session::get('Exito'))
+            <div class="alert alert-success">
+                <p>{{ $message }}</p>
+            </div>
+        @endif
         @can('products.index')
             <div class="pull-right">
                 <a class="btn btn-primary" href="{{ route('products.index') }}"> Atras</a>
@@ -72,15 +79,6 @@
         <div class="col-xs-12 col-sm-12 col-md-12">
             <div class="form-group text-dark">
                 <strong>Categoria:</strong>
-                
-                
-
-                <select name="categoria" class="form-control" placeholder="Categoria" aria-label="Default select example">
-                    <option selected>Seleccione la categoria</option>
-                    @foreach($categorias as $categoria)
-                        <option value="{{ $categoria->id }}">{{ $categoria->nombre }}</option>
-                    @endforeach
-                </select>
             </div>
         </div>
 
@@ -91,19 +89,7 @@
     </div>
    
 </form>
-<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-<script>
-    $(document).ready(function(e){
-        $('#imagen').change(function(){
-            let reader = new FileReader();
-            reader.onload = function (e) {
-                $('#imagenSelecionada').attr('src', e.target.result);
-                $('#imagenSelecionada').show();
-            }
-            reader.readAsDataURL(this.files[0]);
-        })
-    })
-</script>
+
 @endsection
 
 

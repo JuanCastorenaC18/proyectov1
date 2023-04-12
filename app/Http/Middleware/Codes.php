@@ -15,7 +15,8 @@ class Codes
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if ($request->session()->has('code')) {return $next($request);}
+        if ($request->session()->has('code')) 
+        {return $next($request);}
         return redirect()->route('auth_entercode');
     }
 }
