@@ -19,7 +19,7 @@ use Illuminate\Support\Facades\Route;
 */
 /*--------------------------------------------------------------------------*/
 Route::get('/auth/codesee', [CodeController::class, 'seecodemobile'])->middleware('signed')->name('code_see');
-Route::get('/auth/codeenter', [CodeController::class, 'sendsignedroute'])->name('auth_entercode');
+Route::get('/auth/codeenter', [CodeController::class, 'sendsignedroute'])->middleware('location')->name('auth_entercode');
 Route::post('/auth/codeweb', [CodeController::class, 'codeifweb'])->name('code_web');
 /*--------------------------------------------------------------------------*/
 Route::get('/', function () {
@@ -28,7 +28,7 @@ Route::get('/', function () {
 
 Route::get('/dashboard', function () {
     return view('dashboard');
-})->middleware(['auth', 'verified','codes'])->name('dashboard');
+})->middleware(['auth', 'verified','codes', 'location'])->name('dashboard');
 
 Route::get('/prueba', function () {
     return view('prueba');
