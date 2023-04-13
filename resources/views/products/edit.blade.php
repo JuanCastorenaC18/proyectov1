@@ -1,5 +1,5 @@
 @extends('products.layout')
-   
+
 @section('content')
     <div class="row">
         <div class="col-lg-12 margin-tb">
@@ -11,7 +11,7 @@
             </div>
         </div>
     </div>
-   
+
     @if ($errors->any())
         <div class="alert alert-danger">
             <strong>¡Vaya!</strong> Hubo algunos problemas con su entrada.<br><br>
@@ -22,11 +22,11 @@
             </ul>
         </div>
     @endif
-  
+
     <form action="{{ route('products.update',$product->id) }}" method="POST" enctype="multipart/form-data">
         @csrf
         @method('PUT')
-   
+
          <div class="row">
             <div class="col-xs-12 col-sm-12 col-md-12">
                 <div class="form-group text-dark">
@@ -55,7 +55,7 @@
             </div>
             <div class="col-xs-12 col-sm-12 col-md-12">
                 <div class="form-group text-dark">
-                    <img id="imagenSelecionada" src="/imagen/{{ $product->imagen }}" height="4%" width="4%">
+                    <img id="imagenSelecionada" src="https://spaces-server.sgp1.digitaloceanspaces.com/{{ $product->imagen }}" height="4%" width="4%">
                 </div>
             </div>
             <div class="col-xs-12 col-sm-12 col-md-12">
@@ -70,13 +70,13 @@
                     <input type="text" name="categoria" value="{{ $product->categoria }}" class="form-control" placeholder="Categoria">
                 </div>
             </div>
-            
+
             <div class="col-xs-12 col-sm-12 col-md-12 text-center">
             <br>
               <button type="submit" class="btn btn-outline-success">Enviar</button>
             </div>
         </div>
-   
+
     </form>
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script>

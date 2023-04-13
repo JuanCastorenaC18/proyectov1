@@ -1,5 +1,5 @@
 <?php
-  
+
 namespace App\Http\Controllers;
 
 use App\Mail\MailAlSuper;
@@ -14,7 +14,9 @@ use Illuminate\Http\Response;
 use Illuminate\View\View;
 use App\Http\Controllers\console;
 use Spatie\Permission\Models\Permission;
-  
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Http\UploadedFile;
+
 class ProductController extends Controller
 {
     public function __construct()
@@ -35,11 +37,11 @@ class ProductController extends Controller
     {
         $users = User::all();
         $products = Product::latest()->paginate(5);
-        
+
         return view('products.index',compact('products', 'users'))
                     ->with('i', (request()->input('page', 1) - 1) * 5);
     }
-  
+
     /**
      * Show the form for creating a new resource.
      */
@@ -48,7 +50,7 @@ class ProductController extends Controller
         $categorias = Category::all();
         return view('products.create', ['categorias' => $categorias]);
     }
-  
+
     /**
      * Store a newly created resource in storage.
      */
@@ -64,21 +66,22 @@ class ProductController extends Controller
         ]);
         $product = $request->all();
 
-        if ($imagen = $request->file('imagen')) {
-            $rutaGuardarImg = 'imagen/';
-            $imagenProducto = date('YmdHis')."." .$imagen->getClientOriginalExtension();
-            $imagen->move($rutaGuardarImg, $imagenProducto);
-            $product['imagen'] = "$imagenProducto";
-        }
-        Product::create($product);
-        return redirect()->route('products.index')->with('Exito', 'Producto creado correctamente.');
+        $file = $request->file('imagen');
 
-        /*Product::create($request->all());
-        
-        return redirect()->route('products.index')
-                        ->with('Exito','Producto creado con exito.');*/
+        $imagenProducto = date('YmdHis')."." .$file->getClientOriginalExtension();
+
+        $product['imagen'] = "$imagenProducto";
+
+        $filecontent = file_get_contents($file->getRealPath());
+
+        Storage::disk('digitalocean')->put($imagenProducto, $filecontent, 'public');
+
+        Product::create($product);
+
+        return redirect()->route('products.index')->with('Exito', 'Producto creado correctamente.');
     }
-  
+
+
     /**
      * Display the specified resource.
      */
@@ -86,7 +89,7 @@ class ProductController extends Controller
     {
         return view('products.show',compact('product'));
     }
-  
+
     /**
      * Show the form for editing the specified resource.
      */
@@ -94,7 +97,7 @@ class ProductController extends Controller
     {
         return view('products.edit',compact('product'));
     }
-  
+
     /**
      * Update the specified resource in storage.
      */
@@ -107,36 +110,46 @@ class ProductController extends Controller
             'descripcion' => 'required',
             'categoria' => 'required',
         ]);
-        $prod->$request->all();
 
-        if ($imagen = $request->file('imagen')) {
-            $rutaGuardarImg = 'imagen/';
-            $imagenProducto = date('YmdHis')."." .$imagen->getClientOriginalExtension();
-            $imagen->move($rutaGuardarImg, $imagenProducto);
-            $prod['imagen'] = "$imagenProducto";
-        } else {
-            unset($prod['imagen']);
-        }
-        Product::update($prod);
-        
+        $id = $product->id;
+
+        $producto = Product::find($id);
+
+        $file = $request->file('imagen');
+
+        $imagenProducto = date('YmdHis')."." .$file->getClientOriginalExtension();
+
+        $filecontent = file_get_contents($file->getRealPath());
+
+        $producto->nombre = $request["nombre"];
+        $producto->precio = $request["precio"];
+        $producto->stock = $request["stock"];
+        $producto->descripcion = $request["descripcion"];
+        $producto->categoria = $request["categoria"];
+        $producto->imagen = "$imagenProducto";
+
+        Storage::disk('digitalocean')->put($imagenProducto, $filecontent, 'public');
+
+        $producto->save();
+
         return redirect()->route('products.index')
                         ->with('Exito','Producto creado correctamente.');
     }
-  
+
     /**
      * Remove the specified resource from storage.
      */
     public function destroy(Product $product): RedirectResponse
     {
         /*$product->delete();
-         
+
         return redirect()->route('products.index')
                         ->with('Exito','Producto eliminado con exito.');*/
         /*$product->status = false;
         $product->save();
         return redirect()->route('products.index')
                         ->with('Exito','Producto desactivado con exito.');*/
-    
+
         if ($product->status == false) {
             $product->status = true;
             $product->save();

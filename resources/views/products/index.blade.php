@@ -1,5 +1,5 @@
 @extends('products.layout')
- 
+
 @section('content')
     <div class="row">
         <div class="col-lg-12 margin-tb">
@@ -12,17 +12,17 @@
                     <a class="btn btn-success" href="{{ route('products.create') }}"> Crear nuevo producto</a>
                 </div>
             @endcan
-            
+
             <br>
         </div>
     </div>
-   
+
     @if ($message = Session::get('Exito'))
         <div class="alert alert-success">
             <p>{{ $message }}</p>
         </div>
     @endif
-   
+
     <table class="table table-bordered">
         <tr>
             <th>No</th>
@@ -43,7 +43,7 @@
             <td>{{ $product->precio }}</td>
             <td>{{ $product->stock }}</td>
             <td>{{ $product->descripcion }}</td>
-            <td><img src="/imagen/{{ $product->imagen }}" height="30%" width="30%"></td>
+            <td><img src="https://spaces-server.sgp1.digitaloceanspaces.com/{{ $product->imagen }}" height="30%" width="30%"></td>
             <td>{{ $product->categoria }}</td>
             <td>{{ $product->status }}</td>
             <td>
@@ -55,7 +55,7 @@
                             <a class="btn btn-outline-primary{{ !$product->is_active ? ' disabled' : '' }}" href="{{ route('products.show',$product->id) }}" @disabled(true)>Ver</a>
                         @endif
                     @endcan
-                    
+
                     @can('products.edit')
                         @if ($product->status == true)
                             <a class="btn btn-warning" href="{{ route('products.edit',$product->id) }}">Editar</a>
@@ -63,7 +63,7 @@
                             <a class="btn btn-outline-warning{{ !$product->is_active ? ' disabled' : '' }}" href="{{ route('products.edit',$product->id) }}">Editar</a>
                         @endif
                     @endcan
-                
+
                     @can('products.destroy')
                         @csrf
                         @method('DELETE')
@@ -86,11 +86,11 @@
     @cannot('products.update')
         <p>Usted no tiene permisos vaya al menu de cliente para solicitarlo.</p>
     @endcannot
-    
-    
-  
+
+
+
     {!! $products->links() !!}
-      
+
 @endsection
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 <!--<script>
@@ -102,5 +102,5 @@
             //document.getElementById("btnpeticion").disabled = false;
         });
     });
-    
+
 </script>-->
