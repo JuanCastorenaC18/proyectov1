@@ -1,5 +1,5 @@
 @extends('products.layout')
-  
+
 @section('content')
 <div class="row">
     <div class="col-lg-12 margin-tb">
@@ -15,7 +15,7 @@
         <br>
     </div>
 </div>
-   
+
 @if ($errors->any())
     <div class="alert alert-danger">
         <strong>¡Vaya!</strong> Hubo algunos problemas con su entrada.<br><br>
@@ -26,7 +26,7 @@
         </ul>
     </div>
 @endif
-   
+
 <form action="{{ route('products.store') }}" method="POST" enctype="multipart/form-data">
     @csrf
      <div class="row">
@@ -68,12 +68,12 @@
                 <input type="file" id="imagen" name="imagen" class="form-control" placeholder="Imagen">
             </div>
         </div>
-        
+
         <div class="col-xs-12 col-sm-12 col-md-12">
             <div class="form-group text-dark">
                 <strong>Categoria:</strong>
-                
-                
+
+
 
                 <select name="categoria" class="form-control" placeholder="Categoria" aria-label="Default select example">
                     <option selected>Seleccione la categoria</option>
@@ -89,7 +89,7 @@
             <button type="submit" class="btn btn-outline-success">Enviar</button>
         </div>
     </div>
-   
+
 </form>
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 <script>

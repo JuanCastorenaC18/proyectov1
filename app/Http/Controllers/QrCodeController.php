@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
+use Illuminate\Support\Facades\Session;
 
 class QrCodeController extends Controller
 {
@@ -20,6 +21,7 @@ class QrCodeController extends Controller
         if ($request->session()->getId() === $sessionId) {
             $request->session()->regenerate();
 
+            Session::put('code', '123');
             return response()->json(['success' => true]);
         }
 
