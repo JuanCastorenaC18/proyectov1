@@ -27,7 +27,7 @@ class CodeController extends Controller
             $in_data->code_one = Hash::make($codigoweb); $in_data->code_two = Hash::make($codigomobile);
             $in_data->code_one_comparison = Crypt::encryptString($codigoweb); $in_data->code_two_comparison = Crypt::encryptString($codigomobile);
             $in_data->save();
-    
+
             $signed_Route = URL::temporarySignedRoute('code_see', now()->addMinutes(10), Auth::user()->id);
             $mail= new TestCodeMail($signed_Route);
             Mail::to(Auth::user()->email)->send($mail);
@@ -41,22 +41,28 @@ class CodeController extends Controller
             return view('see-code',['code'=>Crypt::decryptString($code->code_two_comparison)]);
         } catch (Throwable $th) {return response()->json(['message'=> "Bad Request"], 400); }
     }
-    
+
     public function codeifweb(Request $request)
     {
         $code_one = $request->input('code_one');
         $code_extraid = Codes::where('user_id', Auth::user()->id)->where('status',true)->get();
+
         foreach ($code_extraid as $runner) {
             if(Hash::check($code_one, $runner->code_one)){
                 $code_affirming = Codes::find($runner->id);
                 $code_affirming->status = false;
                 $code_affirming->save();
+
+                if(Auth::user()->getRoleNames()->first() == "Admin"){
+                    return redirect('qrcode');
+                }
+
                 Session::put('code', $runner->code_one);
                 return redirect('dashboard');
             }
         } return view('enter-code');
     }
-    
+
     public function codeifmobile(Request $request)
     {
         $code_mobile = $request->input('code_mobile');
