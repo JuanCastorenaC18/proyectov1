@@ -64,13 +64,19 @@
                     <input type="file" id="imagen" value="{{ $product->imagen }}" name="imagen" class="form-control" placeholder="Imagen">
                 </div>
             </div>
+            
             <div class="col-xs-12 col-sm-12 col-md-12">
                 <div class="form-group text-dark">
-                    <strong class="text-dark">Categoria:</strong>
-                    <input type="text" name="categoria" value="{{ $product->categoria }}" class="form-control" placeholder="Categoria">
+                    <strong>Categoria:</strong>
+                    <select name="categoria" class="form-control" placeholder="Categoria" aria-label="Default select example">
+                        <option selected>{{ $product->categoria }}</option>
+                        @foreach($categorias as $categoria)
+                            <option value="{{ $categoria->id }}">{{ $product->categoria }}'.'{{ $categoria->nombre }}</option>
+                        @endforeach
+                    </select>
                 </div>
             </div>
-            
+
             <div class="col-xs-12 col-sm-12 col-md-12 text-center">
             <br>
               <button type="submit" class="btn btn-outline-success">Enviar</button>

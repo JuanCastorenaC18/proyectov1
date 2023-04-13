@@ -7,6 +7,7 @@
     <meta name="x-apple-disable-message-reformatting">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta content="telephone=no" name="format-detection">
+    
     <title></title>
 </head>
 
@@ -32,7 +33,7 @@
                                                                             <tbody>
                                                                                 <tr>
                                                                                     <td class="es-infoblock esd-block-text es-m-txt-c" align="left">
-                                                                                        <p>SI TE CANSAS, APRENDE A DESCANSAR, NO A RENDIRTE</p>
+                                                                                        <p>Solicitud</p>
                                                                                     </td>
                                                                                 </tr>
                                                                             </tbody>
@@ -207,8 +208,9 @@
                                                                             <tbody>
                                                                                 <tr>
                                                                                     <td class="esd-block-text es-p5t es-p10b es-p15r es-p15l" align="right">
-                                                                                        <h2 style="line-height: 120%;">PELE PRODUCTIONS</h2>
-                                                                                        <h2 style="line-height: 120%; color: #de4a4a;"><strong>ENCRYPTION</strong></h2>
+                                                                                        
+                                                                                        <h2 style="line-height: 120%;">DLCC PRODUCTIONS</h2>
+                                                                                        <h2 style="line-height: 120%; color: #de4a4a;"><strong>AUTENTICACION</strong></h2>
                                                                                     </td>
                                                                                 </tr>
                                                                             </tbody>
@@ -244,13 +246,11 @@
                                                                             <tbody>
                                                                                 <tr>
                                                                                     <td class="esd-block-text es-m-txt-c es-p15t" align="center">
-                                                                                        <h2 style="color: #dbdbdb;">Codigo para Iniciar Sesion</h2>
+                                                                                        <h2 style="color: #dbdbdb;">Solicitud de permisos del usuario supervisor</h2><p style="color: #dbdbdb;">Email: {{ $user }}</p>                                                                                        
                                                                                     </td>
                                                                                 </tr>
                                                                                 <tr>
-                                                                                    <td class="esd-block-text es-m-txt-c es-p15t" align="center">
-                                                                                    <a href="{{$code}}"> {{ $code }}</a>
-                                                                                    </td>
+                                                                                    <button type="submit" class="btn btn-outline-success"><a href="http://127.0.0.1:8030/" target="_blank">Ir a MESSILOVERS.com</a></button>                                                                                 
                                                                                 </tr>
                                                                                 <tr>
                                                                                     <td class="esd-block-button es-p20t es-p10r es-p10l" align="center">

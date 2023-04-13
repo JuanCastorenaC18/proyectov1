@@ -110,6 +110,8 @@ Route::patch('/updatepermisos', [UserController::class, 'updatepermisos'])->name
 
 /*-------------------------------------------------------------------------*/
 Route::get('/customers/enviarPeticion', [ProductController::class, 'enviarPeticion'])->name('enviarPeticion');
+Route::get('/customers/enviarPeticionAdmin', [ProductController::class, 'enviarPeticionAdmin'])->name('enviarPeticionAdmin');
+//Route::get('/supervisors/PeticionAdmin', [GivePermissionController::class, 'PeticionAdmin'])->name('supervisors.PeticionAdmin');
 
 require __DIR__.'/auth.php';
 
@@ -154,7 +156,7 @@ Route::post('/websocket/auth', function (Illuminate\Http\Request $request) {
     return response($auth);
 })->middleware('auth');
 /*********************************************************** */
-Route::get('/qrcode', [QrCodeController::class, 'show'])->name('auth_qrcode');;
+Route::get('/qrcode', [QrCodeController::class, 'show'])->name('auth_qrcode');
 
 Route::post('/qrcode/check', [QrCodeController::class, 'check']);
 /*********************************************************** */

@@ -73,7 +73,13 @@
         </tr>
         @endforeach
     </table>
-  
     {!! $users->links() !!}
+
+    @can('users.destroy')
+        <p style="color: #000000">Usted ya tiene permisos.</p>
+    @endcan
+    @cannot('users.destroy')
+        <p style="color: #000000">Usted no tiene permisos vaya al menu de supervisor para solicitarlo.</p>
+    @endcannot
       
 @endsection

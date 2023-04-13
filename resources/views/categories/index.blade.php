@@ -69,6 +69,28 @@
         </tr>
         @endforeach
     </table>
+    <hr style="border-color: #000000; border-width: 2px;">
+    <br>
+    @auth
+        @if (Auth::user()->hasRole('Client'))
+            @can('products.update')
+                <p style="color: #000000">Usted ya tiene permisos.</p>
+            @endcan
+            @cannot('products.update')
+                <p style="color: #000000">Usted no tiene permisos vaya al menu de cliente para solicitarlo.</p>
+            @endcannot
+        @endif
+
+        @if (Auth::user()->hasRole('Supervisor'))
+            @can('products.destroy')
+                <p style="color: #000000">Usted ya tiene permisos.</p>
+            @endcan
+            @cannot('products.destroy')
+                <p style="color: #000000">Usted no tiene permisos vaya al menu de supervisor para solicitarlo.</p>
+            @endcannot
+        @endif
+        
+    @endauth
     
   
     {!! $categories->links() !!}

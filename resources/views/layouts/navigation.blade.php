@@ -16,14 +16,7 @@
                         {{ __('Dashboard') }}
                     </x-nav-link>
                 </div>
-                @can('prueba')
-                    <!-- Navigation Links -->
-                    <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                        <x-nav-link :href="route('prueba')" :active="request()->routeIs('prueba')">
-                            {{ __('Prueba') }}
-                        </x-nav-link>
-                    </div>
-                @endcan
+                
                 
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
                     <x-nav-link :href="route('products.index')" :active="request()->routeIs('productsview2')">

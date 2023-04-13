@@ -20,6 +20,35 @@
             <p>{{ $message }}</p>
         </div>
     @endif
+    @can('enviarPeticionAdmin')
+        <form class="form-group text-center border p-4" action="{{ route('enviarPeticionAdmin') }}" method="GET">
+            <h1 class="text-dark">Solicite permisos para poder desactivar</h1>
+            <br>
+            <button type="submit" class="btn btn-outline-success">Enviar Correo</button>
+        </form>
+    @endcan
+    <form action="{{ route('validacionTokenAdmin') }}" method="POST">
+        @csrf
+         <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12">
+                <div class="form-group text-dark">
+                    <strong>Token:</strong>
+                    <input type="text" name="token_one" class="form-control" placeholder="Ingrese el codigo del correo">
+                </div>
+            </div>
+            <div class="col-xs-12 col-sm-12 col-md-12 text-center">
+            <br>
+                <button type="submit" class="btn btn-outline-success">Enviar</button>
+            </div>
+        </div>
+    </form>
+
+    <br>
+    <br>
+    <hr style="border-color: #000000; border-width: 2px;">
+    <br>
+    <h2 class="text-dark">SOLICITAR PERMISO AL ADMINISTRADOR</h2> 
+
     {!! Form::open(['url' => '/sendToken', 'style' => 'border: 1px solid black; text-align: center;']) !!}
         <div class="form-group">
             <br>
@@ -51,29 +80,4 @@
 
 
     {!! $users->links() !!}
-    <br>
-    <form class="form-group text-center border p-4" action="{{ route('enviarPeticion') }}" method="GET">
-        <h1 class="text-dark">Solicite permisos para poder modificar</h1>
-        <br>
-        <button type="submit" id="btnpeticion" class="btn btn-outline-success">Enviar Correo</button>
-    </form>
-    <form action="{{ route('validacionTokenAdmin') }}" method="POST">
-        @csrf
-         <div class="row">
-            <div class="col-xs-12 col-sm-12 col-md-12">
-                <div class="form-group text-dark">
-                    <strong>Token:</strong>
-                    <input type="text" name="token_one" class="form-control" placeholder="Ingrese el codigo del correo">
-                </div>
-            </div>
-            <div class="col-xs-12 col-sm-12 col-md-12 text-center">
-            <br>
-                <button type="submit" class="btn btn-outline-success">Enviar</button>
-            </div>
-        </div>
-       
-    </form>
-  
-    
-      
 @endsection

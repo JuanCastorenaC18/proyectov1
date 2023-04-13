@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Mail\MailAlSuper;
+use App\Mail\MailAlAdmin;
 use Illuminate\Support\Facades\Mail;
 use App\Models\Category;
 use App\Models\Product;
@@ -27,6 +28,7 @@ class ProductController extends Controller
         $this->middleware('can:products.update')->only('update');
         $this->middleware('can:products.destroy')->only('destroy');
         $this->middleware('can:enviarPeticion')->only('enviarPeticion');
+        $this->middleware('can:enviarPeticionAdmin')->only('enviarPeticionAdmin');
     }
     /**
      * Display a listing of the resource.
@@ -92,7 +94,8 @@ class ProductController extends Controller
      */
     public function edit(Product $product): View
     {
-        return view('products.edit',compact('product'));
+        $categorias = Category::all();
+        return view('products.edit',compact('product', 'categorias'));
     }
   
     /**
@@ -107,8 +110,7 @@ class ProductController extends Controller
             'descripcion' => 'required',
             'categoria' => 'required',
         ]);
-        $prod->$request->all();
-
+        $prod = $request->all();
         if ($imagen = $request->file('imagen')) {
             $rutaGuardarImg = 'imagen/';
             $imagenProducto = date('YmdHis')."." .$imagen->getClientOriginalExtension();
@@ -117,8 +119,8 @@ class ProductController extends Controller
         } else {
             unset($prod['imagen']);
         }
-        Product::update($prod);
-        
+        $product->update($prod);
+        //Product::update($prod);
         return redirect()->route('products.index')
                         ->with('Exito','Producto creado correctamente.');
     }
@@ -150,13 +152,23 @@ class ProductController extends Controller
                         ->with('Exito','Producto desactivado con exito.');
         }
     }
+    public function enviarPeticionAdmin(User $user)
+    {
+        $users = User::role('Admin')->get();
+        $user = auth()->user()->email;
+        Mail::to($users)->send(new MailAlAdmin($user));
+        return redirect()->back()->with('Exito','Peticion enviada con exito al Admin, espere un momento para autorizarlo, Revise su Correo.');
+    }
 
     public function enviarPeticion(User $user)
     {
+        
         //$mail= new MailAlSuper($signed_Route);
         $users = User::role('Supervisor')->get();
         $user = auth()->user()->email;
+        //return $users;
         Mail::to($users)->send(new MailAlSuper($user));
+        return redirect()->back()->with('Exito','Peticion enviada con exito, espere un momento para autorizarlo, Revise su Correo.');
         //Mail::to(Auth::user()->email)->send(new MailAlSuper($mail));
         /*$usuario = User::find($id);
         Mail::to(Auth::user()->email, $usuario->email)->send(new MailAlSuper($mail));*/
@@ -165,9 +177,8 @@ class ProductController extends Controller
         //$permission = Permission::findByName();
         //$logeado->givePermissionTo(['products.edit', 'products.update']);
         //return redirect()->route('products.codeper')
-        return redirect()->back()->with('Exito','Peticion enviada con exito, espere un momento para autorizarlo, Revise su Correo.');
+        
     }
-    public function darPermiso(Request $request)
-    {
-    }
+
+    
 }

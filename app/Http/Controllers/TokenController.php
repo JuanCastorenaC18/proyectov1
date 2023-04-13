@@ -34,7 +34,11 @@ class TokenController extends Controller
             $signed_Route = URL::temporarySignedRoute('seeToken', now()->addMinutes(10), $id_del_usuario);
             $mail= new Mailtokencliente($signed_Route);
             Mail::to($email)->send($mail);
-        } return redirect()->back()->with('Exito', 'Correo enviado correctamente');
+            return redirect()->back()->with('Exito', 'Correo enviado correctamente');
+        } else{
+            return redirect()->back()->with('Error', 'El supervisor tiene un token activo');
+        } 
+        //return redirect()->back()->with('Exito', 'Correo enviado correctamente');
     }
 
     public function seeToken(Request $request)
@@ -43,7 +47,7 @@ class TokenController extends Controller
             $token = Tokens::where('user_id', Auth::user()->id)->where('status',true)->first();
             $verificadtoken = Tokens::where('user_id', Auth::user()->id)->where('status',true)->get();
             if(count ($verificadtoken) == 1){
-                return view('see-token',['token'=>Crypt::decryptString($token->token_one_comparison)]);
+                return view('see-tokenadmin',['token'=>Crypt::decryptString($token->token_one_comparison)]);
             }
             else{
                 return 'wey no tienes token activo';
@@ -67,7 +71,7 @@ class TokenController extends Controller
                 Session::put('token', $runner->token_one);
                 return redirect()->route('products.index')->with('Exito', 'Ya tienes los permisos para modificar');
             }
-        } return redirect()->back()->with('Error', 'El token no es valido');
+        } 
         //return view('customers.customer')->with();
     }
 
@@ -88,7 +92,10 @@ class TokenController extends Controller
             $signed_Route = URL::temporarySignedRoute('seeTokenAdmin', now()->addMinutes(10), $id_del_usuario);
             $mail= new Mailtokensupervisor($signed_Route);
             Mail::to($email)->send($mail);
-        } return redirect()->back()->with('Exito', 'Correo enviado correctamente');
+            return redirect()->back()->with('Exito', 'Correo enviado correctamente');
+        } else {
+            return redirect()->back()->with('Error', 'El supervisor tiene un token activo');
+        }
     }
 
     public function seeTokenAdmin(Request $request)
@@ -122,6 +129,5 @@ class TokenController extends Controller
                 return redirect()->route('users.index')->with('Exito', 'Ya tienes los permisos para desactivar');
             }
         } return redirect()->back()->with('Error', 'El token no es valido');
-        //return view('customers.customer')->with();
     }
 }

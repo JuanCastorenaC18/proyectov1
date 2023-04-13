@@ -10,6 +10,11 @@ use Illuminate\Http\Response;
 use Illuminate\View\View;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
+use App\Mail\MailAlSuper;
+use App\Mail\MailAlAdmin;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\console;
 
 class GivePermissionController extends Controller
 {
@@ -24,6 +29,7 @@ class GivePermissionController extends Controller
         $this->middleware('can:supervisors.update')->only('update');
         $this->middleware('can:supervisors.destroy')->only('destroy');
         $this->middleware('can:supervisors.destroy')->only('editrol');
+        $this->middleware('can:supervisors.PeticionAdmin')->only('supervisors.PeticionAdmin');
     }
     /**
      * Display a listing of the resource.
@@ -88,5 +94,13 @@ class GivePermissionController extends Controller
     public function destroy(string $id)
     {
         //
+    }
+    public function PeticionAdmin(User $user)
+    {
+        //return 'Hola soy PeticionAdmin';
+        /*$users = User::role('Admin')->get();
+        $user = auth()->user()->email;
+        Mail::to($users)->send(new MailAlAdmin($user));
+        return redirect()->back()->with('Exito','Peticion enviada con exito al Admin, espere un momento para autorizarlo, Revise su Correo.');*/
     }
 }

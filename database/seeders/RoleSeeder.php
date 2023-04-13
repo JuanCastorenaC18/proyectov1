@@ -23,17 +23,17 @@ class RoleSeeder extends Seeder
         //$permission = Permission::create(['name' => 'prueba', 'description' => 'Ver pantalla de prueba'])->syncRoles([$role1, $role2]);
         /*--------------------------------------------------------------------------------------------------------------------*/
         $permission = Permission::create(['name' => 'admins.index', 
-                                        'description' => 'Ver pantalla de Administrador'])->syncRoles([$role1, $role2]);
+                                        'description' => 'Ver pantalla de Administrador'])->syncRoles([$role1]);
         $permission = Permission::create(['name' => 'admins.create', 
-                                        'description' => 'crear Administrador'])->syncRoles([$role1, $role2]);
+                                        'description' => 'crear Administrador'])->syncRoles([$role1]);
         $permission = Permission::create(['name' => 'admins.store', 
-                                        'description' => 'guardar Administrador'])->syncRoles([$role1, $role2]);
+                                        'description' => 'guardar Administrador'])->syncRoles([$role1]);
         $permission = Permission::create(['name' => 'admins.show', 
-                                        'description' => 'ver Administrador completo'])->syncRoles([$role1, $role2]);
+                                        'description' => 'ver Administrador completo'])->syncRoles([$role1]);
         $permission = Permission::create(['name' => 'admins.edit', 
-                                        'description' => 'ir a editar Administrador'])->syncRoles([$role1, $role2]);
+                                        'description' => 'ir a editar Administrador'])->syncRoles([$role1]);
         $permission = Permission::create(['name' => 'admins.update', 
-                                        'description' => 'actualizar Administrador'])->syncRoles([$role1, $role2]);
+                                        'description' => 'actualizar Administrador'])->syncRoles([$role1]);
         $permission = Permission::create(['name' => 'admins.destroy', 
                                         'description' => 'desactivar Administrador'])->syncRoles([$role1]);
         $permission = Permission::create(['name' => 'admins.indexcustom',
@@ -104,9 +104,10 @@ class RoleSeeder extends Seeder
         $permission = Permission::create(['name' => 'users.destroy',
                                         'description' => 'crear usuarios'])->syncRoles([$role1]);
         $permission = Permission::create(['name' => 'users.editpermiso',
-                                        'description' => 'crear usuarios'])->syncRoles([$role1, $role2]);
+                                        'description' => 'Editar permisos'])->syncRoles([$role1, $role2]);
         $permission = Permission::create(['name' => 'enviarPeticion',
-                                        'description' => 'crear usuarios'])->syncRoles([$role3]);
-        
+                                        'description' => 'pedir permisos a clientes'])->syncRoles([$role3]);
+        $permission = Permission::create(['name' => 'enviarPeticionAdmin',
+                                        'description' => 'pedir permisos a clientes'])->syncRoles([$role2]);
     }
 }

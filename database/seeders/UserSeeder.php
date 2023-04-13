@@ -44,7 +44,7 @@ class UserSeeder extends Seeder
             'email' => 'diegomaarinmontalvo09@gmail.com',
             'password' => Hash::make('1234567890'),
             'remember_token' => '',
-        ])->assignRole('Client');
+        ])->assignRole('Supervisor');
 
         User::create([
             'name' => 'VicNalgon',
@@ -52,5 +52,12 @@ class UserSeeder extends Seeder
             'password' => Hash::make('1234567890'),
             'remember_token' => '',
         ])->assignRole('Admin');
+        
+        User::create([
+            'name' => 'VicClient',
+            'email' => 'jb0victor01@gmail.com',
+            'password' => Hash::make('1234567890'),
+            'remember_token' => '',
+        ])->assignRole('Client');
     }
 }
