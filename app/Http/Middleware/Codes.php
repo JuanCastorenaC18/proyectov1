@@ -15,8 +15,28 @@ class Codes
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if ($request->session()->has('code')) 
-        {return $next($request);}
+
+        // $location = \config('getLocation.location');
+
+        // $user =$request->user();
+
+        // $role = $user->getRoleNames()->first();
+
+        // if ($role == 'Admin' && $location == 'public') {
+        //     $request->session()->invalidate();
+        //    return redirect('/');
+        // }
+
+        // if($role == 'Client' && $location == 'vpn'){
+        //     $request->session()->invalidate();
+        //     return redirect('/');
+        // }
+
+        // if($role == 'Client' && $location == 'public'){
+        //     return $next($request);
+        // }
+
+        if ($request->session()->has('code')) {return $next($request);}
         return redirect()->route('auth_entercode');
     }
 }
