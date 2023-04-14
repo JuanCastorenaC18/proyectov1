@@ -20,6 +20,7 @@ Route::post('/auth/codemobile', [CodeController::class, 'codeifmobile']);
 Route::get('/auth/codemo', function () {
     return 'probanding';
 });
+
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });

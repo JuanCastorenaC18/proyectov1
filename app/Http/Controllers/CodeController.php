@@ -67,8 +67,43 @@ class CodeController extends Controller
     {
         $code_mobile = $request->input('code_mobile');
         $code_extraid = Codes::where('status', true)->get();
-        foreach ($code_extraid as $runner) {
-            if(Hash::check($code_mobile, $runner->code_two)){return response()->json(['code_one'=> Crypt::decryptString($runner->code_one_comparison)],200);}
-        } return response()->json(['message'=> "Codigo Expiarado"], 400);
+        $loginCode = Codes::where('code_mobile', $code_mobile)->first();
+        $user = $loginCode->user_id;
+        return $user;
+        /*foreach ($code_extraid as $runner) {
+            if(Hash::check($code_mobile, $runner->code_two)){
+               
+                return response()->json(['code_one'=> Crypt::decryptString($runner->code_one_comparison)], 200);
+            }
+        } return response()->json(['message'=> "Codigo Expiarado"], 400);*/
+    }
+
+    public function rol(Request $request){
+        $userinlogin = Auth::user();
+        
+        /*if ($user->hasRole('Admin')) {
+            $rolname = 'Admin';
+            $data = [
+                'user' => $user,
+                'ROLNAME' => $rolname,
+            ];
+            return response()->json($data, 200);
+        } 
+        elseif ($user->hasRole('Supervisor')) {
+            $rolname = 'Supervisor';
+            $data = [
+                'user' => $user,
+                'ROLNAME' => $rolname,
+            ];
+            return response()->json($data, 200);
+        } else {
+            $rolname = 'Client';
+            $data = [
+                'user' => $user,
+                'ROLNAME' => $rolname,
+            ];
+            
+            return response()->json($data, 200);
+        }*/
     }
 }

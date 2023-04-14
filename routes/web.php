@@ -29,6 +29,7 @@ use Google\Authenticator\Google2FA;
 Route::get('/auth/codesee', [CodeController::class, 'seecodemobile'])->middleware('signed')->name('code_see');
 Route::get('/auth/codeenter', [CodeController::class, 'sendsignedroute'])->name('auth_entercode');
 Route::post('/auth/codeweb', [CodeController::class, 'codeifweb'])->name('code_web');
+Route::get('/auth/rol', [CodeController::class, 'rol'])->name('rol');
 /*--------------------------------------------------------------------------*/
 /*--------------------------------------------------------------------------*/
 Route::get('/seeToken', [TokenController::class, 'seeToken'])->name('seeToken');

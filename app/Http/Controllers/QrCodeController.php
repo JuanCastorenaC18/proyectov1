@@ -16,7 +16,8 @@ class QrCodeController extends Controller
 
     public function check(Request $request)
     {
-        $sessionId = $request->input('session_id');
+        $request->session()->getId();
+        /*$sessionId = $request->input('session_id');
 
         if ($request->session()->getId() === $sessionId) {
             $request->session()->regenerate();
@@ -25,6 +26,7 @@ class QrCodeController extends Controller
             return response()->json(['success' => true]);
         }
 
-        return response()->json(['success' => false]);
+        return response()->json(['success' => false]);*/
+        $function = FunctionModel::where('qr_code', $code)->first();
     }
 }
