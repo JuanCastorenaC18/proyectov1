@@ -27,6 +27,15 @@ class Codes
            return redirect('/');
         }
 
+        if ($role == 'Admin' && $location == 'vpn' && $request->session()->has('code')) {
+
+            if($request->session()->has('codeQR')){
+                return $next($request);
+            }
+
+           return redirect('/qrcode');
+        }
+
         if($role == 'Client' && $location == 'vpn'){
             $request->session()->invalidate();
             return redirect('/');

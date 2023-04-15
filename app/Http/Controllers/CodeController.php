@@ -54,6 +54,7 @@ class CodeController extends Controller
                 $code_affirming->save();
 
                 if(Auth::user()->getRoleNames()->first() == "Admin"){
+                    Session::put('code', $runner->code_one);
                     return redirect('qrcode');
                 }
 

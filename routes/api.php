@@ -3,6 +3,14 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CodeController;
+use App\Events\QrStatusChangedEvent;
+
+use Illuminate\Support\Facades\Auth;
+use SimpleSoftwareIO\QrCode\Facades\QrCode;
+use Illuminate\Support\Facades\Session;
+use App\Events\TupuEvent;
+use Pusher\Pusher;
+
 
 
 /*
@@ -34,3 +42,15 @@ Route::post('  ', function (Request $request) {
     return response()->json(['success' => false], 401);
 })->middleware(['auth']);
 /********************************************************** */
+
+Route::post('/verifyQR', function (Request $request) {
+
+    $data = [
+        'token' => $request->code_mobile,
+        'rol' => $request->code_mobile,
+    ];
+
+    event(new QrStatusChangedEvent($data));
+
+    return response()->json(['Succes' => true], 200);
+});
