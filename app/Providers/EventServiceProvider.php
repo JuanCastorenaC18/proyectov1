@@ -21,6 +21,9 @@ class EventServiceProvider extends ServiceProvider
         'App\Events\QrStatusChangedEvent'=> [
             'App\Listeners\QrStatusListener',
         ],
+        'App\Events\TupuEvent'=> [
+            'App\Listeners\TupuListener',
+        ],
     ];
 
     /**

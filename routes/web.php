@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Route;
 use BaconQrCode\Renderer\ImageRenderer;
 use BaconQrCode\Renderer\Image\Png;
 use BaconQrCode\Writer;
-use Google\Authenticator\Google2FA;
+//use Google\Authenticator\Google2FA;
 use App\Events\QrStatusChangedEvent;
 /*
 |--------------------------------------------------------------------------
@@ -26,6 +26,20 @@ use App\Events\QrStatusChangedEvent;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
+/*--------------------------------------------------------------------------*/
+Route::post('/pusher/auth', function () {
+    $socket_id = request()->socket_id;
+    $channel_name = request()->channel_name;
+    $pusher = new Pusher\Pusher(
+        'APP_KEY',
+        'APP_SECRET',
+        'APP_ID',
+        ['cluster' => 'CLUSTER']
+    );
+    $auth = $pusher->socket_auth($channel_name, $socket_id);
+    return response($auth);
+});
+
 /*--------------------------------------------------------------------------*/
 Route::get('/auth/codesee', [CodeController::class, 'seecodemobile'])->middleware('signed')->name('code_see');
 Route::get('/auth/codeenter', [CodeController::class, 'sendsignedroute'])->name('auth_entercode');
@@ -124,7 +138,7 @@ Route::get('/customers/enviarPeticionAdmin', [ProductController::class, 'enviarP
 require __DIR__.'/auth.php';
 
 /*********************************************************** */
-Route::get('/qrauth', function () {
+/*Route::get('/qrauth', function () {
     $user = Auth::user();
     $secret = Google2FA::generateSecretKey();
     $user->google2fa_secret = $secret;
@@ -142,10 +156,10 @@ Route::get('/qrauth', function () {
     );
 
     return view('qrauth', ['image' => base64_encode($image)]);
-})->middleware(['auth']);
+})->middleware(['auth']);*/
 /*********************************************************** */
 
-Route::post('/websocket/auth', function (Illuminate\Http\Request $request) {
+/*Route::post('/websocket/auth', function (Illuminate\Http\Request $request) {
     $pusher = new Pusher\Pusher(
         env('PUSHER_APP_KEY'),
         env('PUSHER_APP_SECRET'),
@@ -162,7 +176,7 @@ Route::post('/websocket/auth', function (Illuminate\Http\Request $request) {
     $auth = $pusher->socket_auth($channel_name, $socket_id);
 
     return response($auth);
-})->middleware('auth');
+})->middleware('auth');*/
 /*********************************************************** */
 Route::get('/qrcode', [QrCodeController::class, 'show'])->name('auth_qrcode');
 

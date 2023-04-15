@@ -2,11 +2,11 @@
 
 namespace App\Listeners;
 
-use App\Events\QrStatusChangedEvent;
+use App\Events\TupuEvent;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 
-class QrStatusListener
+class TupuListener
 {
     /**
      * Create the event listener.
@@ -19,8 +19,8 @@ class QrStatusListener
     /**
      * Handle the event.
      */
-    public function handle(QrStatusChangedEvent $event): void
+    public function handle(TupuEvent $mensaje): void
     {
-        $data= $event->data;
+        $mensaje= $event->mensaje;
     }
 }

@@ -2,7 +2,6 @@
 
 namespace App\Events;
 
-
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Broadcasting\PresenceChannel;
@@ -11,17 +10,17 @@ use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class QrStatusChangedEvent implements ShouldBroadcast
+class TupuEvent implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
     /**
      * Create a new event instance.
      */
-    public $data;
-    public function __construct($data)
+    public $mensaje;
+    public function __construct($mensaje)
     {
-        $this->data = $data;
+        $this->mensaje = $mensaje;
     }
 
     /**
@@ -37,6 +36,6 @@ class QrStatusChangedEvent implements ShouldBroadcast
     }
     public function broadcastAs(): string
     {
-        return 'EventQr';
+        return 'EventSw';
     }
 }

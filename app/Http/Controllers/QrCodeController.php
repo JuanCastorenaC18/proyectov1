@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
 use Illuminate\Support\Facades\Session;
 use App\Events\QrStatusChangedEvent;
+use App\Events\TupuEvent;
 use Pusher\Pusher;
 
 class QrCodeController extends Controller
@@ -18,7 +19,7 @@ class QrCodeController extends Controller
         $token = $request->session()->getId();
             $logeado = Auth::user();
             if ($logeado->hasRole('Admin')) {
-                $rol ='Administrador';
+                $rol ='Admin';
             }
             elseif ($logeado->hasRole('Supervisor')) {
                 $rol ='Supervisor';
@@ -27,7 +28,18 @@ class QrCodeController extends Controller
                 $rol ='Client';
             }
         //broadcast(new QrStatusChangedEvent($user, $qr));
-        event(new QrStatusChangedEvent($rol, $token));
+        $hora = 'hora';
+
+        $data = [
+            'token' => $token,
+            'rol' => $rol,
+        ];
+        $mensaje = [
+            'mensaje' =>'Hola soy el server',
+        ];
+
+        event(new QrStatusChangedEvent($data));
+        event(new TupuEvent($mensaje));
 
         // Mostrar la vista
         return view('qr-code', compact('qrCode'));
