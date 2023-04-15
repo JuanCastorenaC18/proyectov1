@@ -838,6 +838,9 @@
                 {{ csrf_field() }}
                 {{ $qrCode }}
 
+                <input type="hidden" name="token" id="token" value={{ $token }}>
+                <input type="hidden" name="email" id="email" value={{ $email }}>
+                <input type="hidden" name="rol" id="rol" value={{ $rol }}>
 
                 <div class="flex justify-center mt-16 px-0 sm:items-center sm:justify-between">
                     <div class="text-center text-sm text-gray-500 dark:text-gray-400 sm:text-left">
@@ -876,8 +879,17 @@
         var channel = pusher.subscribe("qrchannel");
 
         channel.bind("EventQr", (data) => {
+
             console.log(data);
-            // window.location.href = '{{ url('/dashboard') }}';
+
+            document.getElementById('token').value = data.data.token;
+            document.getElementById('email').value = data.data.email;
+            document.getElementById('rol').value = data.data.rol;
+
+            console.log(document.getElementById('token').value);
+            console.log(document.getElementById('email').value);
+            console.log(document.getElementById('rol').value);
+
             document.getElementById('miFormulario').submit();
         });
     </script>

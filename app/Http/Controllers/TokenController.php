@@ -18,27 +18,33 @@ use Illuminate\Support\Facades\Session;
 class TokenController extends Controller
 {
     public function sendToken(Request $request)
-    {   
-        $tokenweb = random_int(1000000, 9999999);
-        $email = $request->input('email');
-        $user = \App\Models\User::where('email', $email)->first();
-        $id_del_usuario = $user->id;
-        $verificadtoken = Tokens::where('user_id', $id_del_usuario)->where('status',true)->get();
-        if(count ($verificadtoken) == 0){
-            $in_data = new Tokens();
-            $in_data->user_id = $id_del_usuario;
-            $in_data->token_one = Hash::make($tokenweb);
-            $in_data->token_one_comparison = Crypt::encryptString($tokenweb);
-            $in_data->save();
-    
-            $signed_Route = URL::temporarySignedRoute('seeToken', now()->addMinutes(10), $id_del_usuario);
-            $mail= new Mailtokencliente($signed_Route);
-            Mail::to($email)->send($mail);
-            return redirect()->back()->with('Exito', 'Correo enviado correctamente');
-        } else{
-            return redirect()->back()->with('Error', 'El supervisor tiene un token activo');
-        } 
-        //return redirect()->back()->with('Exito', 'Correo enviado correctamente');
+    {
+        $location = \config('getLocation.location');
+
+
+        if ($location == "vpn"){
+            $tokenweb = random_int(1000000, 9999999);
+            $email = $request->input('email');
+            $user = \App\Models\User::where('email', $email)->first();
+            $id_del_usuario = $user->id;
+            $verificadtoken = Tokens::where('user_id', $id_del_usuario)->where('status',true)->get();
+            if(count ($verificadtoken) == 0){
+                $in_data = new Tokens();
+                $in_data->user_id = $id_del_usuario;
+                $in_data->token_one = Hash::make($tokenweb);
+                $in_data->token_one_comparison = Crypt::encryptString($tokenweb);
+                $in_data->save();
+
+                $signed_Route = URL::temporarySignedRoute('seeToken', now()->addMinutes(10), $id_del_usuario);
+                $mail= new Mailtokencliente($signed_Route);
+                Mail::to($email)->send($mail);
+                return redirect()->back()->with('Exito', 'Correo enviado correctamente');
+            } else{
+                return redirect()->back()->with('Error', 'El supervisor tiene un token activo');
+            }
+        } else {
+            return redirect()->back()->with('Error', 'Solo se puede generar token de permiso por VPN');
+        }
     }
 
     public function seeToken(Request $request)
@@ -53,10 +59,10 @@ class TokenController extends Controller
                 return 'wey no tienes token activo';
             }
         } catch (Throwable $th) {
-            return response()->json(['message'=> "Bad Request"], 400); 
+            return response()->json(['message'=> "Bad Request"], 400);
         }
     }
-    
+
     public function validacionToken(Request $request)
     {
         $token_one = $request->input('token_one');
@@ -71,7 +77,7 @@ class TokenController extends Controller
                 Session::put('token', $runner->token_one);
                 return redirect()->route('products.index')->with('Exito', 'Ya tienes los permisos para modificar');
             }
-        } 
+        }
         //return view('customers.customer')->with();
     }
 
@@ -88,7 +94,7 @@ class TokenController extends Controller
             $in_data->token_one = Hash::make($tokenweb);
             $in_data->token_one_comparison = Crypt::encryptString($tokenweb);
             $in_data->save();
-    
+
             $signed_Route = URL::temporarySignedRoute('seeTokenAdmin', now()->addMinutes(10), $id_del_usuario);
             $mail= new Mailtokensupervisor($signed_Route);
             Mail::to($email)->send($mail);
@@ -110,10 +116,10 @@ class TokenController extends Controller
                 return 'wey no tienes token activo';
             }
         } catch (Throwable $th) {
-            return response()->json(['message'=> "Bad Request"], 400); 
+            return response()->json(['message'=> "Bad Request"], 400);
         }
     }
-    
+
     public function validacionTokenAdmin(Request $request)
     {
         $token_one = $request->input('token_one');

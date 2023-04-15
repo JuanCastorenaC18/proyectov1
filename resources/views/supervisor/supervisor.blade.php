@@ -1,5 +1,5 @@
 @extends('supervisor.layout')
- 
+
 @section('contentsuper')
     <div class="row">
         <div class="col-lg-12 margin-tb">
@@ -9,7 +9,7 @@
             <br>
         </div>
     </div>
-   
+
     @if ($message = Session::get('Exito'))
         <div class="alert alert-success">
             <p>{{ $message }}</p>
@@ -47,20 +47,20 @@
     <br>
     <hr style="border-color: #000000; border-width: 2px;">
     <br>
-    <h2 class="text-dark">SOLICITAR PERMISO AL ADMINISTRADOR</h2> 
+    <h2 class="text-dark">SOLICITAR PERMISO AL ADMINISTRADOR</h2>
 
     {!! Form::open(['url' => '/sendToken', 'style' => 'border: 1px solid black; text-align: center;']) !!}
         <div class="form-group">
             <br>
             {!! Form::label('email', 'Correo electrónico al que se le va a enviar ', ['style' => 'color: black']) !!}
             <br>
-            {!! Form::email('email', null, ['class' => 'form-control', 'placeholder' => 'Ingrese su correo electrónico']) !!}
+            {!! Form::email('email', null, ['class' => 'form-control', 'placeholder' => 'Ingrese su correo electrónico', 'required' => true]) !!}
         </div>
         <br>
     {!! Form::submit('Enviar correo', ['class' => 'btn btn-outline-primary']) !!}
         <br>
     {!! Form::close() !!}
-   
+
     <table class="table table-bordered">
         <tr>
             <th>No</th>

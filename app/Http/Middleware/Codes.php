@@ -33,7 +33,7 @@ class Codes
                 return $next($request);
             }
 
-           return redirect('/qrcode');
+           return redirect()->route('auth_qrcode');
         }
 
         if($role == 'Client' && $location == 'vpn'){

@@ -18,58 +18,44 @@ class QrCodeController extends Controller
         $qrCode = QrCode::size(250)->generate($request->session()->getId());
 
         $token = $request->session()->getId();
-            $logeado = Auth::user();
-            if ($logeado->hasRole('Admin')) {
-                $rol ='Admin';
-            }
-            elseif ($logeado->hasRole('Supervisor')) {
-                $rol ='Supervisor';
-            }
-            else{
-                $rol ='Client';
-            }
-        //broadcast(new QrStatusChangedEvent($user, $qr));
-        $hora = 'hora';
+        $logeado = Auth::user();
+        if ($logeado->hasRole('Admin')) {
+            $rol ='Admin';
+        }
+        elseif ($logeado->hasRole('Supervisor')) {
+            $rol ='Supervisor';
+        }
+        else{
+            $rol ='Client';
+        }
+
+        $email = Auth::user()->email;
 
         $data = [
             'token' => $token,
             'rol' => $rol,
-        ];
-        $mensaje = [
-            'mensaje' =>'Hola soy el server',
+            'email' => $email,
         ];
 
         event(new QrStatusChangedEvent($data));
-        // event(new TupuEvent($mensaje));
 
-        // Mostrar la vista
-        return view('qr-code', compact('qrCode'));
-        //return view('example.index');
+        return view('qr-code', compact('qrCode', 'email', 'token', 'rol'));
     }
 
     public function check(Request $request)
     {
-        // $request->session()->getId();
 
-        Session::put('codeQR', 'true');
+        $token = $request->token;
+        $rol = $request->rol;
+        $email = $request->email;
 
-
-        
-
-        // $user = Auth::user()->email;
-
-
-        /*$sessionId = $request->input('session_id');
-
-        if ($request->session()->getId() === $sessionId) {
-            $request->session()->regenerate();
-
-            return response()->json(['success' => true]);
+        if($email == Auth::user()->email && $rol == "Admin"){
+            Session::put('codeQR', 'true');
+            return redirect('dashboard');
         }
 
-        return response()->json(['success' => false]);*/
-        // $function = FunctionModel::where('qr_code', $code)->first();
+        $qrCode = QrCode::size(250)->generate($request->session()->getId());
 
-        return redirect('dashboard');
+        return view('qr-code', compact('qrCode', 'email', 'token', 'rol'));
     }
 }

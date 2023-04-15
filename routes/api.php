@@ -46,8 +46,9 @@ Route::post('  ', function (Request $request) {
 Route::post('/verifyQR', function (Request $request) {
 
     $data = [
-        'token' => $request->code_mobile,
-        'rol' => $request->code_mobile,
+        'token' => $request->token,
+        'rol' => $request->rol,
+        'email' => $request->email,
     ];
 
     event(new QrStatusChangedEvent($data));
