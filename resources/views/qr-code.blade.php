@@ -17,11 +17,32 @@
     </head>
     <body class="antialiased">
 
-        
+
         <div class="relative sm:flex sm:justify-center sm:items-center min-h-screen bg-dots-darker bg-center bg-gray-100 dark:bg-dots-lighter dark:bg-gray-900 selection:bg-red-500 selection:text-white">
             <x-guest-layout>
                 {{ $qrCode }}
-                
+
+                <script src="https://js.pusher.com/7.0/pusher.min.js"></script>
+
+                <script>
+                    // crea una instancia de Pusher
+                    const pusher = new Pusher('{{ env("PUSHER_APP_KEY") }}', {
+                        cluster: '{{ env("PUSHER_APP_CLUSTER") }}',
+                        encrypted: true
+                    });
+
+                    // suscríbete al canal "my-channel"
+                    const channel = pusher.subscribe('qrchannel');
+
+                    // escucha el evento "my-event"
+                    channel.bind('qrchannel', function(data) {
+                        // manejar el evento aquí
+                    });
+                </script>
+
+
+
+
                 <div class="flex justify-center mt-16 px-0 sm:items-center sm:justify-between">
                     <div class="text-center text-sm text-gray-500 dark:text-gray-400 sm:text-left">
                         <div class="flex items-center gap-4">

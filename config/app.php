@@ -155,7 +155,6 @@ return [
     */
 
     'providers' => [
-
         /*
          * Laravel Framework Service Providers...
          */
@@ -183,6 +182,7 @@ return [
         Illuminate\View\ViewServiceProvider::class,
         Collective\Html\HtmlServiceProvider::class,
         SimpleSoftwareIO\QrCode\QrCodeServiceProvider::class,
+
         /*
          * Package Service Providers...
          */

@@ -67,20 +67,20 @@ class CodeController extends Controller
     {
         $code_mobile = $request->input('code_mobile');
         $code_extraid = Codes::where('status', true)->get();
-        $loginCode = Codes::where('code_mobile', $code_mobile)->first();
-        $user = $loginCode->user_id;
-        return $user;
-        /*foreach ($code_extraid as $runner) {
+        //$loginCode = Codes::where('code_mobile', $code_mobile)->first();
+        //$user = $loginCode->user_id;
+        //return $user;
+        foreach ($code_extraid as $runner) {
             if(Hash::check($code_mobile, $runner->code_two)){
-               
+
                 return response()->json(['code_one'=> Crypt::decryptString($runner->code_one_comparison)], 200);
             }
-        } return response()->json(['message'=> "Codigo Expiarado"], 400);*/
+        } return response()->json(['message'=> "Codigo Expiarado"], 400);
     }
 
     public function rol(Request $request){
         $userinlogin = Auth::user();
-        
+
         /*if ($user->hasRole('Admin')) {
             $rolname = 'Admin';
             $data = [
@@ -88,7 +88,7 @@ class CodeController extends Controller
                 'ROLNAME' => $rolname,
             ];
             return response()->json($data, 200);
-        } 
+        }
         elseif ($user->hasRole('Supervisor')) {
             $rolname = 'Supervisor';
             $data = [
@@ -102,7 +102,7 @@ class CodeController extends Controller
                 'user' => $user,
                 'ROLNAME' => $rolname,
             ];
-            
+
             return response()->json($data, 200);
         }*/
     }

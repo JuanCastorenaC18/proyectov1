@@ -15,6 +15,7 @@ use BaconQrCode\Renderer\ImageRenderer;
 use BaconQrCode\Renderer\Image\Png;
 use BaconQrCode\Writer;
 use Google\Authenticator\Google2FA;
+use App\Events\QrStatusChangedEvent;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -53,6 +54,12 @@ Route::resource('admins', AdminController::class)->names(['admins']);
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::get('/fire', function () {
+    event(new QrStatusChangedEvent);
+    return 'Fire';
+});
+
 
 Route::get('/dashboard', function () {
     return view('dashboard');
