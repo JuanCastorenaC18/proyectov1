@@ -41,7 +41,7 @@ class RoleSeeder extends Seeder
         /*--------------------------------------------------------------------------------------------------------------------*/
         /*--------------------------------------------------------------------------------------------------------------------*/
         $permission = Permission::create(['name' => 'supervisors.index', 
-                                        'description' => 'Ver pantalla de Supervisor'])->syncRoles([$role1, $role2]);
+                                        'description' => 'Ver pantalla de Supervisor'])->syncRoles([$role2]);
         $permission = Permission::create(['name' => 'supervisors.create', 
                                         'description' => 'crear Supervisor'])->syncRoles([$role1, $role2]);
         $permission = Permission::create(['name' => 'supervisors.store', 
@@ -55,7 +55,7 @@ class RoleSeeder extends Seeder
         $permission = Permission::create(['name' => 'supervisors.destroy', 
                                         'description' => 'desactivar Supervisor'])->syncRoles([$role1, $role2]);
         $permission = Permission::create(['name' => 'supervisors.indexcustom', 
-                                        'description' => 'Ver pantalla Clientes'])->syncRoles([$role1, $role2, $role3]);
+                                        'description' => 'Ver pantalla Clientes'])->syncRoles([$role3]);
         /*--------------------------------------------------------------------------------------------------------------------*/
         $permission = Permission::create(['name' => 'products.index', 
                                         'description' => 'Ver pantalla de productos'])->syncRoles([$role1, $role2, $role3]);
@@ -94,15 +94,15 @@ class RoleSeeder extends Seeder
         $permission = Permission::create(['name' => 'users.create',
                                         'description' => 'crear usuarios'])->syncRoles([$role1]);
         $permission = Permission::create(['name' => 'users.store',
-                                        'description' => 'crear usuarios'])->syncRoles([$role1]);
+                                        'description' => 'enviar usuarios'])->syncRoles([$role1]);
         $permission = Permission::create(['name' => 'users.show',
-                                        'description' => 'crear usuarios'])->syncRoles([$role1, $role2]);
+                                        'description' => 'ver usuarios'])->syncRoles([$role1, $role2]);
         $permission = Permission::create(['name' => 'users.edit',
-                                        'description' => 'crear usuarios'])->syncRoles([$role1]);
+                                        'description' => 'editar usuarios'])->syncRoles([$role1]);
         $permission = Permission::create(['name' => 'users.update',
-                                        'description' => 'crear usuarios'])->syncRoles([$role1]);
+                                        'description' => 'actualizar usuarios'])->syncRoles([$role1]);
         $permission = Permission::create(['name' => 'users.destroy',
-                                        'description' => 'crear usuarios'])->syncRoles([$role1]);
+                                        'description' => 'desactivar usuarios'])->syncRoles([$role1]);
         $permission = Permission::create(['name' => 'users.editpermiso',
                                         'description' => 'Editar permisos'])->syncRoles([$role1, $role2]);
         $permission = Permission::create(['name' => 'enviarPeticion',

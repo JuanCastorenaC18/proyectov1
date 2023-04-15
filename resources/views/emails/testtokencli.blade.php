@@ -249,7 +249,7 @@
                                                                                 </tr>
                                                                                 <tr>
                                                                                     <td class="esd-block-text es-m-txt-c es-p15t" align="center">
-                                                                                    <a href="{{$token}}"> {{ $token }}</a>
+                                                                                        <h2 style="color: #dbdbdb;"> {{ $token }}</h2>
                                                                                     </td>
                                                                                 </tr>
                                                                                 <tr>

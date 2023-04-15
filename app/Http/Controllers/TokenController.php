@@ -35,12 +35,13 @@ class TokenController extends Controller
                 $in_data->token_one_comparison = Crypt::encryptString($tokenweb);
                 $in_data->save();
 
-                $signed_Route = URL::temporarySignedRoute('seeToken', now()->addMinutes(10), $id_del_usuario);
-                $mail= new Mailtokencliente($signed_Route);
+                //$signed_Route = URL::temporarySignedRoute('seeToken', now()->addMinutes(10), $id_del_usuario);
+                //$mail= new Mailtokencliente($signed_Route);
+                $mail= new Mailtokencliente($tokenweb);
                 Mail::to($email)->send($mail);
                 return redirect()->back()->with('Exito', 'Correo enviado correctamente');
             } else{
-                return redirect()->back()->with('Error', 'El supervisor tiene un token activo');
+                return redirect()->back()->with('Error', 'El Cliente tiene un token activo');
             }
         } else {
             return redirect()->back()->with('Error', 'Solo se puede generar token de permiso por VPN');
@@ -53,7 +54,7 @@ class TokenController extends Controller
             $token = Tokens::where('user_id', Auth::user()->id)->where('status',true)->first();
             $verificadtoken = Tokens::where('user_id', Auth::user()->id)->where('status',true)->get();
             if(count ($verificadtoken) == 1){
-                return view('see-tokenadmin',['token'=>Crypt::decryptString($token->token_one_comparison)]);
+                return view('see-token',['token'=>Crypt::decryptString($token->token_one_comparison)]);
             }
             else{
                 return 'wey no tienes token activo';
@@ -93,13 +94,16 @@ class TokenController extends Controller
             $in_data->user_id = $id_del_usuario;
             $in_data->token_one = Hash::make($tokenweb);
             $in_data->token_one_comparison = Crypt::encryptString($tokenweb);
+            $token_one_comparison = Crypt::encryptString($tokenweb);
             $in_data->save();
 
-            $signed_Route = URL::temporarySignedRoute('seeTokenAdmin', now()->addMinutes(10), $id_del_usuario);
-            $mail= new Mailtokensupervisor($signed_Route);
+            //$signed_Route = URL::temporarySignedRoute('seeTokenAdmin', now()->addMinutes(10), $id_del_usuario);
+            //$mail= new Mailtokensupervisor($signed_Route);
+            $mail= new Mailtokensupervisor($tokenweb);
             Mail::to($email)->send($mail);
             return redirect()->back()->with('Exito', 'Correo enviado correctamente');
         } else {
+            $mail= new Mailtokensupervisor($token_one_comparison);
             return redirect()->back()->with('Error', 'El supervisor tiene un token activo');
         }
     }

@@ -4,7 +4,7 @@
     <div class="row">
         <div class="col-lg-12 margin-tb">
             <div class="pull-left">
-                <h2 class="text-dark">Mandar Token de Permiso a un usuario</h2>
+                <h2 class="text-dark">SOLICITAR PERMISO AL ADMINISTRADOR</h2>
             </div>
             <br>
         </div>
@@ -47,7 +47,7 @@
     <br>
     <hr style="border-color: #000000; border-width: 2px;">
     <br>
-    <h2 class="text-dark">SOLICITAR PERMISO AL ADMINISTRADOR</h2>
+    <h2 class="text-dark">Mandar Token de Permiso a un cliente</h2>
 
     {!! Form::open(['url' => '/sendToken', 'style' => 'border: 1px solid black; text-align: center;']) !!}
         <div class="form-group">
